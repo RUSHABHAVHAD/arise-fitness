@@ -1,759 +1,370 @@
-```javascript
-/*
-====================================================
-ARISE FITNESS
-PROGRESSIVE WORKOUT SYSTEM
-====================================================
 
-The workout automatically becomes harder
-as the player's level increases.
-
-Level 1-4   = E Rank
-Level 5-9   = D Rank
-Level 10-19 = C Rank
-Level 20-29 = B Rank
-Level 30-49 = A Rank
-Level 50+   = S Rank
-*/
-
-
-function getDifficulty() {
-
-  if (player.level >= 50) {
-    return "S";
-  }
-
-  if (player.level >= 30) {
-    return "A";
-  }
-
-  if (player.level >= 20) {
-    return "B";
-  }
-
-  if (player.level >= 10) {
-    return "C";
-  }
-
-  if (player.level >= 5) {
-    return "D";
-  }
-
+          function getDifficulty() {
+  if (player.level >= 50) return "S";
+  if (player.level >= 30) return "A";
+  if (player.level >= 20) return "B";
+  if (player.level >= 10) return "C";
+  if (player.level >= 5) return "D";
   return "E";
 }
 
-
-/*
-====================================================
-WORKOUT DATA
-====================================================
-*/
-
-const workoutLevels = {
-
+const workouts = {
   E: [
-
     {
-      id: 1,
+      id: "pushups",
       name: "Push Ups",
       sets: 3,
       reps: 12,
       xp: 25
     },
-
     {
-      id: 2,
+      id: "squats",
       name: "Bodyweight Squats",
       sets: 3,
       reps: 15,
       xp: 25
     },
-
     {
-      id: 3,
+      id: "lunges",
       name: "Reverse Lunges",
       sets: 3,
       reps: 10,
       xp: 25
     },
-
     {
-      id: 4,
+      id: "plank",
       name: "Plank",
       sets: 3,
       reps: 40,
+      unit: "sec",
       xp: 25
     }
-
   ],
 
-
   D: [
-
     {
-      id: 1,
+      id: "pushups",
       name: "Push Ups",
       sets: 4,
       reps: 15,
       xp: 30
     },
-
     {
-      id: 2,
+      id: "squats",
       name: "Bodyweight Squats",
       sets: 4,
       reps: 18,
       xp: 30
     },
-
     {
-      id: 3,
+      id: "lunges",
       name: "Walking Lunges",
       sets: 4,
       reps: 12,
       xp: 30
     },
-
     {
-      id: 4,
+      id: "plank",
       name: "Plank",
       sets: 4,
       reps: 45,
+      unit: "sec",
       xp: 30
     }
-
   ],
 
-
   C: [
-
     {
-      id: 1,
+      id: "decline-pushups",
       name: "Decline Push Ups",
       sets: 4,
       reps: 15,
       xp: 40
     },
-
     {
-      id: 2,
+      id: "jump-squats",
       name: "Jump Squats",
       sets: 4,
       reps: 18,
       xp: 40
     },
-
     {
-      id: 3,
+      id: "lunges",
       name: "Walking Lunges",
       sets: 4,
       reps: 15,
       xp: 40
     },
-
     {
-      id: 4,
+      id: "plank",
       name: "Plank",
       sets: 4,
       reps: 60,
+      unit: "sec",
       xp: 40
     }
-
   ],
 
-
   B: [
-
     {
-      id: 1,
+      id: "diamond-pushups",
       name: "Diamond Push Ups",
       sets: 5,
       reps: 15,
       xp: 50
     },
-
     {
-      id: 2,
+      id: "bulgarian-squats",
       name: "Bulgarian Split Squats",
       sets: 5,
       reps: 12,
       xp: 50
     },
-
     {
-      id: 3,
+      id: "jump-lunges",
       name: "Jump Lunges",
       sets: 5,
       reps: 12,
       xp: 50
     },
-
     {
-      id: 4,
+      id: "side-plank",
       name: "Side Plank",
       sets: 4,
       reps: 60,
+      unit: "sec",
       xp: 50
     }
-
   ],
 
-
   A: [
-
     {
-      id: 1,
+      id: "diamond-pushups",
       name: "Diamond Push Ups",
       sets: 5,
       reps: 20,
       xp: 65
     },
-
     {
-      id: 2,
+      id: "bulgarian-squats",
       name: "Bulgarian Split Squats",
       sets: 5,
       reps: 15,
       xp: 65
     },
-
     {
-      id: 3,
+      id: "jump-lunges",
       name: "Jump Lunges",
       sets: 5,
       reps: 15,
       xp: 65
     },
-
     {
-      id: 4,
+      id: "shoulder-taps",
       name: "Plank Shoulder Taps",
       sets: 5,
       reps: 20,
       xp: 65
     }
-
   ],
 
-
   S: [
-
     {
-      id: 1,
+      id: "archer-pushups",
       name: "Archer Push Ups",
       sets: 5,
       reps: 12,
       xp: 80
     },
-
     {
-      id: 2,
+      id: "bulgarian-squats",
       name: "Bulgarian Split Squats",
       sets: 5,
       reps: 20,
       xp: 80
     },
-
     {
-      id: 3,
+      id: "explosive-lunges",
       name: "Explosive Jump Lunges",
       sets: 5,
       reps: 15,
       xp: 80
     },
-
     {
-      id: 4,
+      id: "shoulder-taps",
       name: "Plank Shoulder Taps",
       sets: 5,
       reps: 25,
       xp: 80
     }
-
   ]
-
 };
 
-
-/*
-====================================================
-GET CURRENT WORKOUT
-====================================================
-*/
+const restTimes = {
+  E: 60,
+  D: 50,
+  C: 45,
+  B: 40,
+  A: 35,
+  S: 30
+};
 
 function getCurrentWorkout() {
-
-  const difficulty =
-    getDifficulty();
-
-  return workoutLevels[difficulty];
-
+  const rank = getDifficulty();
+  return workouts[rank];
 }
-
-
-/*
-====================================================
-REST TIME
-====================================================
-*/
 
 function getRestTime() {
-
-  if (player.level >= 50) {
-    return 30;
-  }
-
-  if (player.level >= 30) {
-    return 35;
-  }
-
-  if (player.level >= 20) {
-    return 40;
-  }
-
-  if (player.level >= 10) {
-    return 45;
-  }
-
-  if (player.level >= 5) {
-    return 50;
-  }
-
-  return 60;
-
+  return restTimes[getDifficulty()];
 }
 
-
-/*
-====================================================
-RENDER WORKOUT
-====================================================
-*/
-
 function renderWorkout() {
+  const list = document.getElementById("exerciseList");
 
-  const list =
-    document.getElementById(
-      "exerciseList"
-    );
+  if (!list) return;
+
+  const rank = getDifficulty();
+  const workout = workouts[rank];
 
   list.innerHTML = "";
 
+  workout.forEach((exercise, index) => {
+    const card = document.createElement("div");
 
-  const workout =
-    getCurrentWorkout();
+    card.className = "exercise-card";
 
+    const unit = exercise.unit || "reps";
 
-  workout.forEach(
-    exercise => {
+    card.innerHTML = `
+      <div class="exercise-header">
+        <h3>${index + 1}. ${exercise.name}</h3>
+        <span class="exercise-xp">+${exercise.xp} XP</span>
+      </div>
 
-      const completed =
-        player.completedExercises
-          .includes(exercise.id);
+      <p class="exercise-info">
+        ${exercise.sets} sets × ${exercise.reps} ${unit}
+      </p>
 
-
-      const card =
-        document.createElement("div");
-
-
-      card.className =
-        "exercise";
-
-
-      card.innerHTML = `
-
-        <div class="exercise-name">
-
-          ${exercise.name}
-
-        </div>
-
-
-        <div class="exercise-details">
-
-          ${exercise.sets}
-          sets ×
-          ${exercise.reps}
-          reps
-
-          •
-
-          +${exercise.xp} XP
-
-        </div>
-
-
-        <div class="inputs">
-
-          <input
-
-            type="number"
-
-            id="sets-${exercise.id}"
-
-            placeholder="Sets"
-
-            min="1"
-
-            value="${exercise.sets}"
-
-          >
-
-
-          <input
-
-            type="number"
-
-            id="reps-${exercise.id}"
-
-            placeholder="Reps"
-
-            min="1"
-
-            value="${exercise.reps}"
-
-          >
-
-
-          <input
-
-            type="number"
-
-            id="weight-${exercise.id}"
-
-            placeholder="Weight kg"
-
-            min="0"
-
-          >
-
-        </div>
-
-
-        <button
-
-          onclick="
-            completeExercise(${exercise.id})
-          "
-
-          ${completed ? "disabled" : ""}
-
+      <div class="exercise-inputs">
+        <input
+          type="number"
+          min="0"
+          placeholder="Weight (kg)"
+          id="weight-${exercise.id}"
         >
-
-          ${
-            completed
-              ? "COMPLETED ✓"
-              : "COMPLETE EXERCISE"
-          }
-
-        </button>
-
-      `;
-
-
-      list.appendChild(card);
-
-    }
-
-  );
-
-
-  showDifficulty();
-
-}
-
-
-/*
-====================================================
-SHOW DIFFICULTY
-====================================================
-*/
-
-function showDifficulty() {
-
-  const difficulty =
-    getDifficulty();
-
-
-  const rest =
-    getRestTime();
-
-
-  const heading =
-    document.querySelector(
-      "section h2"
-    );
-
-
-  if (heading) {
-
-    heading.innerHTML =
-
-      `TODAY'S WORKOUT
-
-       <span style="
-         font-size:12px;
-         color:#888;
-         margin-left:8px;
-       ">
-
-       ${difficulty}-RANK •
-       REST ${rest}s
-
-       </span>`;
-
-  }
-
-}
-
-
-/*
-====================================================
-COMPLETE EXERCISE
-====================================================
-*/
-
-function completeExercise(id) {
-
-  if (
-    player.completedExercises
-      .includes(id)
-  ) {
-
-    return;
-
-  }
-
-
-  const workout =
-    getCurrentWorkout();
-
-
-  const exercise =
-    workout.find(
-      item => item.id === id
-    );
-
-
-  if (!exercise) {
-
-    return;
-
-  }
-
-
-  const sets =
-    document.getElementById(
-      `sets-${id}`
-    ).value;
-
-
-  const reps =
-    document.getElementById(
-      `reps-${id}`
-    ).value;
-
-
-  const weight =
-    document.getElementById(
-      `weight-${id}`
-    ).value || 0;
-
-
-  if (!sets || !reps) {
-
-    alert(
-      "Please enter your sets and reps."
-    );
-
-    return;
-
-  }
-
-
-  player.completedExercises
-    .push(id);
-
-
-  player.xp += exercise.xp;
-
-  player.totalXp += exercise.xp;
-
-
-  player.history.push({
-
-    exercise:
-      exercise.name,
-
-    sets:
-      Number(sets),
-
-    reps:
-      Number(reps),
-
-    weight:
-      Number(weight),
-
-    xp:
-      exercise.xp,
-
-    difficulty:
-      getDifficulty(),
-
-    date:
-      new Date().toISOString()
-
+      </div>
+
+      <button
+        onclick="completeExercise('${exercise.id}')"
+        class="complete"
+        id="button-${exercise.id}"
+      >
+        Complete Exercise
+      </button>
+    `;
+
+    list.appendChild(card);
   });
 
+  showDifficulty(rank);
+}
+
+function showDifficulty(rank) {
+  const sectionTitle = document.querySelector("section h2");
+
+  if (sectionTitle) {
+    sectionTitle.textContent =
+      `Today's Workout — ${rank}-Rank`;
+  }
+}
+
+function completeExercise(id) {
+  const workout = getCurrentWorkout();
+
+  const exercise = workout.find(item => item.id === id);
+
+  if (!exercise) return;
+
+  if (player.completedExercises.includes(id)) {
+    alert("Exercise already completed!");
+    return;
+  }
+
+  player.xp += exercise.xp;
+  player.totalXp += exercise.xp;
+
+  player.completedExercises.push(id);
+
+  savePlayer();
+
+  const button = document.getElementById(`button-${id}`);
+
+  if (button) {
+    button.textContent = "✓ Completed";
+    button.disabled = true;
+  }
 
   checkLevel();
-
-
-  savePlayer();
-
   updateUI();
 
-  renderWorkout();
-
-
-  const currentWorkout =
-    getCurrentWorkout();
-
-
-  if (
-    player.completedExercises.length
-      === currentWorkout.length
-  ) {
-
+  if (player.completedExercises.length === workout.length) {
     finishWorkout();
-
   }
-
 }
-
-
-/*
-====================================================
-LEVEL UP
-====================================================
-*/
 
 function checkLevel() {
+  let requiredXP = player.level * 100;
 
-  let requiredXP =
-    player.level * 100;
-
-
-  while (
-    player.xp >= requiredXP
-  ) {
-
+  while (player.xp >= requiredXP) {
     player.xp -= requiredXP;
-
     player.level++;
 
-
     alert(
-
-      "⚔ LEVEL UP! ⚔\n\n" +
-
-      "You reached Level " +
-      player.level +
-
-      "\n\n" +
-
-      "Your workout difficulty has increased!"
-
+      `⚔️ LEVEL UP!\n\nYou reached Level ${player.level}!`
     );
 
-
-    requiredXP =
-      player.level * 100;
-
+    requiredXP = player.level * 100;
   }
 
+  savePlayer();
 }
-
-
-/*
-====================================================
-FINISH WORKOUT
-====================================================
-*/
 
 function finishWorkout() {
-
   player.workouts++;
-
   player.streak++;
 
-
-  const workout =
-    getCurrentWorkout();
-
-
-  const reward =
-    workout.reduce(
-
-      (total, exercise) =>
-
-        total + exercise.xp,
-
-      0
-
-    );
-
-
-  document.getElementById(
-    "rewardXp"
-  ).textContent =
-    reward;
-
-
-  document.getElementById(
-    "completeBox"
-  ).style.display =
-    "block";
-
+  player.history.push({
+    date: new Date().toLocaleDateString(),
+    xp: player.totalXp,
+    level: player.level
+  });
 
   savePlayer();
+
+  const completeBox =
+    document.getElementById("completeBox");
+
+  if (completeBox) {
+    completeBox.style.display = "block";
+  }
 
   updateUI();
-
 }
 
-
-/*
-====================================================
-NEW WORKOUT
-====================================================
-*/
-
 function newWorkout() {
-
-  player.completedExercises =
-    [];
-
+  player.completedExercises = [];
 
   savePlayer();
 
+  const completeBox =
+    document.getElementById("completeBox");
 
-  document.getElementById(
-    "completeBox"
-  ).style.display =
-    "none";
-
+  if (completeBox) {
+    completeBox.style.display = "none";
+  }
 
   renderWorkout();
-
+  updateUI();
 }
 
-
-/*
-====================================================
-START
-====================================================
-*/
-
 renderWorkout();
-```
