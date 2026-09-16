@@ -1,3 +1,7 @@
+/* =========================================
+   LEVEL UP — WORKOUT SYSTEM
+   ========================================= */
+
 function getDifficulty() {
   if (player.level >= 150) return "SSS";
   if (player.level >= 100) return "SS";
@@ -11,287 +15,259 @@ function getDifficulty() {
 }
 
 
+/* =========================================
+   WORKOUT GENERATOR
+   ========================================= */
+
 function getCurrentWorkout() {
 
-  const profile = player.profile;
+  const profile = player.profile || {};
 
-  const goal = profile.goal;
   const experience = profile.experience;
   const equipment = profile.equipment;
+  const goal = profile.goal;
   const duration = Number(profile.duration);
 
   let workout = [];
 
 
-  // ==========================================
-  // BEGINNER / NO EQUIPMENT
-  // ==========================================
+  /* =========================================
+     BEGINNER — NO EQUIPMENT
+     ========================================= */
 
-  if (
-    experience === "beginner" &&
-    equipment === "none"
-  ) {
+  if (experience === "beginner" && equipment === "none") {
 
     workout = [
       {
-        id: "pushups",
-        name: "Push Ups",
-        sets: 3,
-        reps: 10,
-        xp: 30
-      },
-
-      {
-        id: "squats",
         name: "Bodyweight Squats",
         sets: 3,
-        reps: 15,
-        xp: 30
+        reps: 12,
+        xp: 20
       },
-
       {
-        id: "lunges",
-        name: "Reverse Lunges",
+        name: "Push Ups",
         sets: 3,
-        reps: 10,
-        xp: 30
+        reps: 8,
+        xp: 20
       },
-
       {
-        id: "plank",
+        name: "Glute Bridges",
+        sets: 3,
+        reps: 12,
+        xp: 15
+      },
+      {
         name: "Plank",
         sets: 3,
-        reps: 30,
-        unit: "sec",
-        xp: 30
+        reps: "30 sec",
+        xp: 20
+      },
+      {
+        name: "Mountain Climbers",
+        sets: 3,
+        reps: 20,
+        xp: 20
       }
     ];
   }
 
 
-  // ==========================================
-  // BEGINNER / DUMBBELLS
-  // ==========================================
+  /* =========================================
+     BEGINNER — DUMBBELLS
+     ========================================= */
 
-  else if (
-    experience === "beginner" &&
-    equipment === "dumbbells"
-  ) {
+  else if (experience === "beginner" && equipment === "dumbbells") {
 
     workout = [
       {
-        id: "db_press",
-        name: "Dumbbell Floor Press",
+        name: "Goblet Squat",
         sets: 3,
         reps: 10,
-        xp: 35
+        xp: 25
       },
-
       {
-        id: "db_squat",
-        name: "Dumbbell Goblet Squat",
+        name: "Dumbbell Chest Press",
         sets: 3,
-        reps: 12,
-        xp: 35
+        reps: 10,
+        xp: 25
       },
-
       {
-        id: "db_row",
         name: "Dumbbell Row",
         sets: 3,
         reps: 10,
-        xp: 35
+        xp: 25
       },
-
       {
-        id: "db_rdl",
-        name: "Dumbbell Romanian Deadlift",
-        sets: 3,
-        reps: 10,
-        xp: 35
-      }
-    ];
-  }
-
-
-  // ==========================================
-  // INTERMEDIATE / NO EQUIPMENT
-  // ==========================================
-
-  else if (
-    experience === "intermediate" &&
-    equipment === "none"
-  ) {
-
-    workout = [
-      {
-        id: "decline_pushups",
-        name: "Decline Push Ups",
-        sets: 4,
-        reps: 12,
-        xp: 50
-      },
-
-      {
-        id: "split_squat",
-        name: "Bulgarian Split Squat",
-        sets: 3,
-        reps: 12,
-        xp: 50
-      },
-
-      {
-        id: "diamond_pushups",
-        name: "Diamond Push Ups",
-        sets: 3,
-        reps: 10,
-        xp: 50
-      },
-
-      {
-        id: "plank_taps",
-        name: "Plank Shoulder Taps",
-        sets: 3,
-        reps: 16,
-        xp: 50
-      }
-    ];
-  }
-
-
-  // ==========================================
-  // INTERMEDIATE / DUMBBELLS
-  // ==========================================
-
-  else if (
-    experience === "intermediate" &&
-    equipment === "dumbbells"
-  ) {
-
-    workout = [
-      {
-        id: "db_bench",
-        name: "Dumbbell Bench Press",
-        sets: 4,
-        reps: 10,
-        xp: 60
-      },
-
-      {
-        id: "db_row",
-        name: "One Arm Dumbbell Row",
-        sets: 4,
-        reps: 10,
-        xp: 60
-      },
-
-      {
-        id: "db_lunge",
-        name: "Dumbbell Walking Lunges",
-        sets: 3,
-        reps: 12,
-        xp: 60
-      },
-
-      {
-        id: "db_ohp",
         name: "Dumbbell Shoulder Press",
         sets: 3,
         reps: 10,
-        xp: 60
+        xp: 25
+      },
+      {
+        name: "Dumbbell Romanian Deadlift",
+        sets: 3,
+        reps: 10,
+        xp: 25
       }
     ];
   }
 
 
-  // ==========================================
-  // ADVANCED
-  // ==========================================
+  /* =========================================
+     INTERMEDIATE — NO EQUIPMENT
+     ========================================= */
+
+  else if (experience === "intermediate" && equipment === "none") {
+
+    workout = [
+      {
+        name: "Jump Squats",
+        sets: 4,
+        reps: 12,
+        xp: 35
+      },
+      {
+        name: "Diamond Push Ups",
+        sets: 4,
+        reps: 10,
+        xp: 35
+      },
+      {
+        name: "Reverse Lunges",
+        sets: 4,
+        reps: 12,
+        xp: 30
+      },
+      {
+        name: "Pike Push Ups",
+        sets: 3,
+        reps: 10,
+        xp: 35
+      },
+      {
+        name: "Plank",
+        sets: 3,
+        reps: "45 sec",
+        xp: 30
+      }
+    ];
+  }
+
+
+  /* =========================================
+     INTERMEDIATE — DUMBBELLS
+     ========================================= */
+
+  else if (experience === "intermediate" && equipment === "dumbbells") {
+
+    workout = [
+      {
+        name: "Dumbbell Squat",
+        sets: 4,
+        reps: 10,
+        xp: 40
+      },
+      {
+        name: "Dumbbell Bench Press",
+        sets: 4,
+        reps: 10,
+        xp: 40
+      },
+      {
+        name: "One Arm Dumbbell Row",
+        sets: 4,
+        reps: 10,
+        xp: 40
+      },
+      {
+        name: "Dumbbell Shoulder Press",
+        sets: 4,
+        reps: 10,
+        xp: 35
+      },
+      {
+        name: "Dumbbell Romanian Deadlift",
+        sets: 4,
+        reps: 10,
+        xp: 40
+      }
+    ];
+  }
+
+
+  /* =========================================
+     ADVANCED
+     ========================================= */
 
   else if (experience === "advanced") {
 
     workout = [
       {
-        id: "advanced_push",
-        name: "Archer Push Ups",
-        sets: 4,
-        reps: 10,
-        xp: 80
-      },
-
-      {
-        id: "advanced_split",
         name: "Bulgarian Split Squat",
         sets: 4,
-        reps: 15,
-        xp: 80
+        reps: 10,
+        xp: 55
       },
-
       {
-        id: "advanced_lunge",
-        name: "Explosive Jump Lunges",
+        name: "Advanced Push Ups",
         sets: 4,
         reps: 12,
-        xp: 80
+        xp: 50
       },
-
       {
-        id: "advanced_core",
-        name: "Plank Shoulder Taps",
+        name: "Single Leg Romanian Deadlift",
         sets: 4,
-        reps: 20,
-        xp: 80
+        reps: 10,
+        xp: 55
+      },
+      {
+        name: "Pike Push Up",
+        sets: 4,
+        reps: 12,
+        xp: 50
+      },
+      {
+        name: "Hollow Body Hold",
+        sets: 4,
+        reps: "40 sec",
+        xp: 50
       }
     ];
   }
 
 
-  // ==========================================
-  // DEFAULT
-  // ==========================================
+  /* =========================================
+     DEFAULT WORKOUT
+     ========================================= */
 
   else {
 
     workout = [
       {
-        id: "pushups",
-        name: "Push Ups",
-        sets: 3,
-        reps: 10,
-        xp: 30
-      },
-
-      {
-        id: "squats",
         name: "Bodyweight Squats",
         sets: 3,
-        reps: 15,
-        xp: 30
+        reps: 12,
+        xp: 20
       },
-
       {
-        id: "lunges",
-        name: "Reverse Lunges",
+        name: "Push Ups",
+        sets: 3,
+        reps: 8,
+        xp: 20
+      },
+      {
+        name: "Lunges",
         sets: 3,
         reps: 10,
-        xp: 30
-      },
-
-      {
-        id: "plank",
-        name: "Plank",
-        sets: 3,
-        reps: 30,
-        unit: "sec",
-        xp: 30
+        xp: 20
       }
     ];
   }
 
 
-  // ==========================================
-  // GOAL ADJUSTMENT
-  // ==========================================
+  /* =========================================
+     GOAL ADJUSTMENTS
+     ========================================= */
 
   if (goal === "strength") {
 
@@ -300,7 +276,6 @@ function getCurrentWorkout() {
       sets: exercise.sets + 1,
       xp: exercise.xp + 10
     }));
-
   }
 
 
@@ -310,7 +285,6 @@ function getCurrentWorkout() {
       ...exercise,
       xp: exercise.xp + 10
     }));
-
   }
 
 
@@ -318,21 +292,22 @@ function getCurrentWorkout() {
 
     workout = workout.map(exercise => ({
       ...exercise,
-      reps: exercise.reps + 2,
+      reps:
+        typeof exercise.reps === "number"
+          ? exercise.reps + 2
+          : exercise.reps,
       xp: exercise.xp + 5
     }));
-
   }
 
 
-  // ==========================================
-  // DURATION ADJUSTMENT
-  // ==========================================
+  /* =========================================
+     DURATION
+     ========================================= */
 
   if (duration <= 20) {
 
     workout = workout.slice(0, 3);
-
   }
 
 
@@ -343,7 +318,6 @@ function getCurrentWorkout() {
       sets: exercise.sets + 1,
       xp: exercise.xp + 10
     }));
-
   }
 
 
@@ -351,66 +325,95 @@ function getCurrentWorkout() {
 }
 
 
+/* =========================================
+   REST TIME
+   ========================================= */
+
 function getRestTime() {
 
   const difficulty = getDifficulty();
 
-  const restTimes = {
+  if (difficulty === "E") return 60;
+  if (difficulty === "D") return 60;
+  if (difficulty === "C") return 60;
+  if (difficulty === "B") return 75;
+  if (difficulty === "A") return 90;
+  if (difficulty === "S") return 120;
+  if (difficulty === "SS") return 150;
 
-    E: 60,
-    D: 60,
-    C: 60,
-    B: 75,
-    A: 90,
-    S: 120,
-    SS: 150,
-    SSS: 180
-
-  };
-
-  return restTimes[difficulty] || 60;
+  return 180;
 }
 
 
+/* =========================================
+   RENDER WORKOUT
+   ========================================= */
+
 function renderWorkout() {
+
+  const workout = getCurrentWorkout();
 
   const exerciseList =
     document.getElementById("exerciseList");
 
   if (!exerciseList) return;
 
-  const workout =
-    getCurrentWorkout();
-
   exerciseList.innerHTML = "";
 
   workout.forEach((exercise, index) => {
 
+    const completed =
+      player.completedExercises.includes(index);
+
     const card =
       document.createElement("div");
 
-    card.className = "exercise-card";
+    card.className =
+      completed
+        ? "exercise-card completed"
+        : "exercise-card";
+
 
     card.innerHTML = `
 
-      <h3>
-        ${index + 1}. ${exercise.name}
-      </h3>
+      <div class="exercise-top">
 
-      <p>
-        ${exercise.sets} sets ×
-        ${exercise.reps}
-        ${exercise.unit || "reps"}
-      </p>
+        <h3 class="exercise-name">
+          ${exercise.name}
+        </h3>
 
-      <p>
-        ⭐ ${exercise.xp} XP
-      </p>
+        <span class="exercise-xp">
+          +${exercise.xp} XP
+        </span>
+
+      </div>
+
+
+      <div class="exercise-details">
+
+        <span>
+          ${exercise.sets} Sets
+        </span>
+
+        <span>
+          ${exercise.reps} Reps
+        </span>
+
+        <span>
+          Rest ${getRestTime()}s
+        </span>
+
+      </div>
+
 
       <button
-        onclick="completeExercise('${exercise.id}', ${exercise.xp})"
+        class="complete-btn"
+        onclick="completeExercise(${index})"
+        ${completed ? "disabled" : ""}
       >
-        COMPLETE
+
+        ${completed ? "✓ COMPLETED" : "COMPLETE"}
+
       </button>
 
     `;
@@ -419,66 +422,136 @@ function renderWorkout() {
 
   });
 
+
+  checkWorkoutComplete();
 }
 
 
-function showDifficulty() {
+/* =========================================
+   COMPLETE EXERCISE
+   ========================================= */
 
-  const difficulty =
-    getDifficulty();
+function completeExercise(index) {
 
-  alert(
-    "Current Rank: " +
-    difficulty +
-    "\n\n" +
-    "Training difficulty adapts to your profile and level."
-  );
-
-}
-
-
-function completeExercise(id, xp) {
-
-  if (
-    player.completedExercises.includes(id)
-  ) {
-
+  if (player.completedExercises.includes(index)) {
     return;
-
   }
 
+  const workout = getCurrentWorkout();
 
-  player.completedExercises.push(id);
+  const exercise = workout[index];
 
-  player.xp += xp;
-
-  player.totalXp += xp;
+  if (!exercise) return;
 
 
-  checkLevel();
+  /* Add exercise */
+
+  player.completedExercises.push(index);
+
+
+  /* Give XP */
+
+  player.xp += exercise.xp;
+
+  player.totalXp += exercise.xp;
+
+
+  /* Save */
 
   savePlayer();
 
+
+  /* Check level */
+
+  checkLevel();
+
+
+  /* Refresh */
+
+  renderWorkout();
+
   updateUI();
 
+}
 
-  const workout =
-    getCurrentWorkout();
+
+/* =========================================
+   CHECK WORKOUT COMPLETE
+   ========================================= */
+
+function checkWorkoutComplete() {
+
+  const workout = getCurrentWorkout();
+
+  const completeBox =
+    document.getElementById("completeBox");
+
+  if (!completeBox) return;
+
 
   if (
-    player.completedExercises.length >=
-    workout.length
+    workout.length > 0 &&
+    player.completedExercises.length >= workout.length
   ) {
 
-    finishWorkout();
+    completeBox.style.display = "block";
+
+  } else {
+
+    completeBox.style.display = "none";
 
   }
+
+}
+
+
+/* =========================================
+   FINISH WORKOUT
+   ========================================= */
+
+function finishWorkout() {
+
+  const workout = getCurrentWorkout();
+
+  if (
+    player.completedExercises.length < workout.length
+  ) {
+    return;
+  }
+
+
+  player.workouts += 1;
+
+  player.streak += 1;
+
+
+  player.history.push({
+
+    date: new Date().toISOString(),
+
+    xp: player.totalXp,
+
+    workouts: player.workouts
+
+  });
+
+
+  player.completedExercises = [];
+
+
+  savePlayer();
 
 
   renderWorkout();
 
+  updateUI();
+
 }
 
+
+/* =========================================
+   LEVEL SYSTEM
+   ========================================= */
 
 function checkLevel() {
 
@@ -486,62 +559,32 @@ function checkLevel() {
     player.level * 100;
 
 
-  while (
-    player.xp >= requiredXP
-  ) {
+  while (player.xp >= requiredXP) {
 
     player.xp -= requiredXP;
 
-    player.level++;
+    player.level += 1;
 
     requiredXP =
       player.level * 100;
 
     alert(
-      "⚔️ LEVEL UP!\n\n" +
-      "You reached Level " +
+      "⚔️ LEVEL UP!\n\nYou reached Level " +
       player.level +
       "!"
     );
 
   }
 
-}
-
-
-function finishWorkout() {
-
-  player.workouts++;
-
-  player.streak++;
-
-  player.history.push({
-
-    date: new Date().toISOString(),
-
-    level: player.level,
-
-    xp: player.totalXp
-
-  });
-
-
-  player.completedExercises = [];
 
   savePlayer();
 
-  const completeBox =
-    document.getElementById("completeBox");
-
-  if (completeBox) {
-
-    completeBox.style.display =
-      "block";
-
-  }
-
 }
 
+
+/* =========================================
+   START NEW WORKOUT
+   ========================================= */
 
 function newWorkout() {
 
@@ -550,5 +593,29 @@ function newWorkout() {
   savePlayer();
 
   renderWorkout();
+
+  updateUI();
+
+}
+
+
+/* =========================================
+   SHOW DIFFICULTY
+   ========================================= */
+
+function showDifficulty() {
+
+  const difficulty =
+    getDifficulty();
+
+  const difficultyElement =
+    document.querySelector(".difficulty");
+
+  if (difficultyElement) {
+
+    difficultyElement.textContent =
+      difficulty + "-RANK DIFFICULTY";
+
+  }
 
 }
