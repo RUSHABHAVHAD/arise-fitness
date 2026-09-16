@@ -1,67 +1,46 @@
-/* =========================================
-   LEVEL UP — APP CONTROLLER
-   ========================================= */
+// =========================
+// LEVEL UP — APP CONTROLLER
+// =========================
 
 
-/* =========================================
-   RANK SYSTEM
-   ========================================= */
+// =========================
+// RANK SYSTEM
+// =========================
 
-function getRank() {
+function getRank(level) {
 
-  if (player.level >= 150) {
-    return "SSS-RANK HUNTER";
-  }
+  if (level >= 150) return "SSS";
+  if (level >= 100) return "SS";
+  if (level >= 50) return "S";
+  if (level >= 30) return "A";
+  if (level >= 20) return "B";
+  if (level >= 10) return "C";
+  if (level >= 5) return "D";
 
-  if (player.level >= 100) {
-    return "SS-RANK HUNTER";
-  }
-
-  if (player.level >= 50) {
-    return "S-RANK HUNTER";
-  }
-
-  if (player.level >= 30) {
-    return "A-RANK HUNTER";
-  }
-
-  if (player.level >= 20) {
-    return "B-RANK HUNTER";
-  }
-
-  if (player.level >= 10) {
-    return "C-RANK HUNTER";
-  }
-
-  if (player.level >= 5) {
-    return "D-RANK HUNTER";
-  }
-
-  return "E-RANK HUNTER";
+  return "E";
 }
 
 
-/* =========================================
-   GENERATE PERSONAL PLAN
-   ========================================= */
+// =========================
+// GENERATE PLAN
+// =========================
 
 function generatePlan() {
 
-  const goalElement =
+  const goal =
     document.querySelector(
       'input[name="goal"]:checked'
     );
 
-  const experienceElement =
+  const experience =
     document.querySelector(
       'input[name="experience"]:checked'
     );
 
-  const equipmentElement =
+  const equipment =
     document.querySelector(
       'input[name="equipment"]:checked'
     );
-
 
   const age =
     document.getElementById("age").value;
@@ -82,124 +61,108 @@ function generatePlan() {
     document.getElementById("duration").value;
 
 
-  /* Validation */
+  // =========================
+  // VALIDATION
+  // =========================
 
-  if (!goalElement) {
-    alert("Please select your main goal.");
+  if (!goal) {
+    alert("Please select your goal.");
     return;
   }
 
   if (!age || !weight || !height) {
-    alert(
-      "Please enter your age, weight and height."
-    );
+    alert("Please enter your age, weight and height.");
     return;
   }
 
-  if (!experienceElement) {
-    alert(
-      "Please select your training experience."
-    );
+  if (!experience) {
+    alert("Please select your experience level.");
     return;
   }
 
-  if (!equipmentElement) {
-    alert(
-      "Please select your available equipment."
-    );
+  if (!equipment) {
+    alert("Please select your equipment.");
     return;
   }
 
   if (!trainingDays) {
-    alert(
-      "Please select how many days you can train."
-    );
+    alert("Please select your training days.");
     return;
   }
 
   if (!duration) {
-    alert(
-      "Please select your workout duration."
-    );
+    alert("Please select your workout duration.");
     return;
   }
 
 
-  /* Save profile */
+  // =========================
+  // SAVE PROFILE
+  // =========================
 
-  player.profile = {
+  player.profile.goal = goal.value;
 
-    goal: goalElement.value,
+  player.profile.age = age;
 
-    age: age,
+  player.profile.weight = weight;
 
-    weight: weight,
+  player.profile.height = height;
 
-    height: height,
+  player.profile.waist = waist;
 
-    waist: waist,
+  player.profile.experience =
+    experience.value;
 
-    experience:
-      experienceElement.value,
+  player.profile.equipment =
+    equipment.value;
 
-    equipment:
-      equipmentElement.value,
+  player.profile.trainingDays =
+    trainingDays;
 
-    trainingDays: trainingDays,
-
-    duration: duration
-
-  };
-
+  player.profile.duration =
+    duration;
 
   player.planGenerated = true;
 
+
+  // Reset current workout progress
   player.completedExercises = [];
 
 
   savePlayer();
 
 
-  /* Switch screens */
+  // =========================
+  // SHOW APP
+  // =========================
 
-  const onboarding =
-    document.getElementById("onboarding");
+  document.getElementById(
+    "onboarding"
+  ).style.display = "none";
 
-  const mainApp =
-    document.getElementById("mainApp");
-
-
-  if (onboarding) {
-
-    onboarding.style.display = "none";
-
-  }
+  document.getElementById(
+    "mainApp"
+  ).style.display = "block";
 
 
-  if (mainApp) {
-
-    mainApp.style.display = "block";
-
-  }
-
-
-  /* Load workout */
-
+  // Render everything
   renderWorkout();
 
   updateUI();
-
 }
 
 
-/* =========================================
-   UPDATE PLAYER UI
-   ========================================= */
+// =========================
+// UPDATE UI
+// =========================
 
 function updateUI() {
 
   const levelElement =
     document.getElementById("level");
+
+  const workoutLevelElement =
+    document.getElementById("workoutLevel");
 
   const rankElement =
     document.getElementById("rank");
@@ -220,75 +183,112 @@ function updateUI() {
     document.getElementById("xpFill");
 
 
-  if (!levelElement) {
-    return;
+  // =========================
+  // LEVEL
+  // =========================
+
+  if (levelElement) {
+    levelElement.textContent =
+      player.level;
   }
 
+  if (workoutLevelElement) {
+    workoutLevelElement.textContent =
+      player.level;
+  }
+
+
+  // =========================
+  // RANK
+  // =========================
+
+  const rank =
+    getRank(player.level);
+
+  if (rankElement) {
+    rankElement.textContent =
+      rank + "-RANK";
+  }
+
+
+  // =========================
+  // STATS
+  // =========================
+
+  if (totalXpElement) {
+    totalXpElement.textContent =
+      player.totalXp;
+  }
+
+  if (workoutsElement) {
+    workoutsElement.textContent =
+      player.workouts;
+  }
+
+  if (streakElement) {
+    streakElement.textContent =
+      player.streak;
+  }
+
+
+  // =========================
+  // XP BAR
+  // =========================
 
   const requiredXP =
     player.level * 100;
 
-
-  levelElement.textContent =
-    player.level;
-
-
-  rankElement.textContent =
-    getRank();
-
-
-  totalXpElement.textContent =
-    player.totalXp;
-
-
-  workoutsElement.textContent =
-    player.workouts;
-
-
-  streakElement.textContent =
-    player.streak;
-
-
-  xpTextElement.textContent =
-    player.xp +
-    " / " +
-    requiredXP +
-    " XP";
-
+  const currentXP =
+    player.xp;
 
   const percentage =
     Math.min(
-      (player.xp / requiredXP) * 100,
+      (currentXP / requiredXP) * 100,
       100
     );
 
 
-  xpFillElement.style.width =
-    percentage + "%";
+  if (xpTextElement) {
 
-
-  /* Update difficulty text */
-
-  if (typeof showDifficulty === "function") {
-
-    showDifficulty();
+    xpTextElement.textContent =
+      currentXP +
+      " / " +
+      requiredXP;
 
   }
 
+
+  if (xpFillElement) {
+
+    xpFillElement.style.width =
+      percentage + "%";
+
+  }
+
+
+  // =========================
+  // DIFFICULTY
+  // =========================
+
+  if (
+    typeof showDifficulty ===
+    "function"
+  ) {
+    showDifficulty();
+  }
 }
 
 
-/* =========================================
-   RESET PROGRESS
-   ========================================= */
+// =========================
+// RESET PROGRESS
+// =========================
 
 function resetProgress() {
 
   const confirmed =
     confirm(
-      "Are you sure you want to reset all LEVEL UP progress?"
+      "Are you sure you want to reset all your progress?"
     );
-
 
   if (!confirmed) {
     return;
@@ -298,125 +298,239 @@ function resetProgress() {
   resetPlayer();
 
 
-  const completeBox =
-    document.getElementById("completeBox");
+  document.getElementById(
+    "mainApp"
+  ).style.display = "none";
+
+  document.getElementById(
+    "onboarding"
+  ).style.display = "block";
 
 
-  if (completeBox) {
+  // Clear form selections
+  document.querySelectorAll(
+    'input[type="radio"]'
+  ).forEach(function(input) {
 
-    completeBox.style.display = "none";
+    input.checked = false;
 
-  }
-
-
-  const onboarding =
-    document.getElementById("onboarding");
-
-  const mainApp =
-    document.getElementById("mainApp");
+  });
 
 
-  if (onboarding) {
+  document.getElementById(
+    "age"
+  ).value = "";
 
-    onboarding.style.display = "block";
+  document.getElementById(
+    "weight"
+  ).value = "";
 
-  }
+  document.getElementById(
+    "height"
+  ).value = "";
 
+  document.getElementById(
+    "waist"
+  ).value = "";
 
-  if (mainApp) {
+  document.getElementById(
+    "trainingDays"
+  ).value = "";
 
-    mainApp.style.display = "none";
-
-  }
-
-
-  updateUI();
-
+  document.getElementById(
+    "duration"
+  ).value = "";
 }
 
 
-/* =========================================
-   LEVEL UP MESSAGE
-   ========================================= */
+// =========================
+// LEVEL UP MESSAGE
+// =========================
 
-function showLevelUpMessage() {
+function showLevelUpMessage(
+  oldLevel,
+  newLevel
+) {
 
-  const rank =
-    getRank();
+  if (newLevel <= oldLevel) {
+    return;
+  }
 
 
-  alert(
-    "⚔️ LEVEL UP!\n\n" +
+  const oldRank =
+    getRank(oldLevel);
+
+  const newRank =
+    getRank(newLevel);
+
+
+  let message =
+    "LEVEL UP!\n\n" +
     "You reached Level " +
-    player.level +
-    "!\n\n" +
-    rank
-  );
+    newLevel +
+    "!";
 
+
+  if (newRank !== oldRank) {
+
+    message +=
+      "\n\nRANK UP!\n" +
+      oldRank +
+      " → " +
+      newRank;
+
+  }
+
+
+  alert(message);
 }
 
 
-/* =========================================
-   WORKOUT COMPLETE
-   ========================================= */
+// =========================
+// WORKOUT COMPLETE
+// =========================
 
 function handleWorkoutComplete() {
 
-  if (
-    typeof finishWorkout ===
-    "function"
-  ) {
+  const completeBox =
+    document.getElementById(
+      "completeBox"
+    );
 
-    finishWorkout();
+  const completeMessage =
+    document.getElementById(
+      "completeMessage"
+    );
 
+
+  if (!completeBox) {
+    return;
   }
 
+
+  const workout =
+    getCurrentWorkout();
+
+
+  const totalExercises =
+    workout.length;
+
+
+  const completed =
+    player.completedExercises.length;
+
+
+  if (
+    completed >= totalExercises &&
+    totalExercises > 0
+  ) {
+
+    completeBox.style.display =
+      "block";
+
+
+    if (completeMessage) {
+
+      completeMessage.textContent =
+        "All " +
+        totalExercises +
+        " exercises completed. Claim your reward!";
+
+    }
+
+  } else {
+
+    completeBox.style.display =
+      "none";
+
+  }
 }
 
 
-/* =========================================
-   LOAD APPLICATION
-   ========================================= */
+// =========================
+// SECTION NAVIGATION
+// =========================
+
+function showSection(section) {
+
+  if (section === "workout") {
+
+    const workoutSection =
+      document.getElementById(
+        "workoutSection"
+      );
+
+    if (workoutSection) {
+
+      workoutSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+    return;
+  }
+
+
+  if (section === "home") {
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+    return;
+  }
+
+
+  // Future sections
+  alert(
+    "This section is coming soon."
+  );
+}
+
+
+// =========================
+// APP START
+// =========================
 
 function loadApp() {
 
-  if (player.planGenerated) {
+  if (
+    player.planGenerated &&
+    player.profile &&
+    player.profile.goal
+  ) {
 
-    const onboarding =
-      document.getElementById("onboarding");
+    document.getElementById(
+      "onboarding"
+    ).style.display = "none";
 
-    const mainApp =
-      document.getElementById("mainApp");
-
-
-    if (onboarding) {
-
-      onboarding.style.display =
-        "none";
-
-    }
-
-
-    if (mainApp) {
-
-      mainApp.style.display =
-        "block";
-
-    }
+    document.getElementById(
+      "mainApp"
+    ).style.display = "block";
 
 
     renderWorkout();
 
+    updateUI();
+
+  } else {
+
+    document.getElementById(
+      "onboarding"
+    ).style.display = "block";
+
+    document.getElementById(
+      "mainApp"
+    ).style.display = "none";
+
   }
-
-
-  updateUI();
-
 }
 
 
-/* =========================================
-   START APP
-   ========================================= */
+// =========================
+// START APP
+// =========================
 
 loadApp();
