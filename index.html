@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>ARISE Fitness</title>
+  <title>LEVEL UP</title>
 
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -13,97 +12,395 @@
 <body>
 
   <header>
-    <h1>⚔️ ARISE FITNESS</h1>
-    <p id="rank">E-RANK HUNTER</p>
+    <h1>⚔️ LEVEL UP</h1>
+    <p>TRAIN • EAT • PROGRESS</p>
   </header>
 
-  <main>
 
-    <div class="player-card">
+  <!-- =========================
+       ONBOARDING
+       ========================= -->
 
-      <div class="player-top">
-        <div>
-          <div>LEVEL</div>
-          <div class="level" id="level">1</div>
+  <main class="container">
+
+    <section id="onboarding">
+
+      <div class="onboarding-card">
+
+        <h2>BEGIN YOUR JOURNEY</h2>
+
+        <p class="subtitle">
+          Create your Hunter profile and build your personalized training path.
+        </p>
+
+
+        <!-- GOAL -->
+
+        <div class="form-group">
+
+          <label>🎯 What's your main goal?</label>
+
+          <div class="option-grid">
+
+            <label class="option">
+              <input type="radio" name="goal" value="fat_loss">
+              <span>🔥 Fat Loss</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="goal" value="muscle">
+              <span>💪 Muscle Building</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="goal" value="strength">
+              <span>⚔️ Strength</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="goal" value="fitness">
+              <span>❤️ General Fitness</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="goal" value="maintain">
+              <span>⚖️ Maintain Weight</span>
+            </label>
+
+          </div>
+
         </div>
 
-        <div class="rank" id="rank">
-          E-RANK HUNTER
+
+        <!-- BASIC INFORMATION -->
+
+        <div class="form-group">
+
+          <label>🧬 Basic Information</label>
+
+          <div class="form-row">
+
+            <div>
+              <input
+                type="number"
+                id="age"
+                placeholder="Age"
+                min="13"
+                max="100"
+              >
+            </div>
+
+            <div>
+              <input
+                type="number"
+                id="weight"
+                placeholder="Weight (kg)"
+                min="20"
+                max="300"
+              >
+            </div>
+
+          </div>
+
         </div>
-      </div>
 
-      <div class="xp-container">
 
-        <div class="xp-text">
-          <span>XP</span>
-          <span id="xpText">0 / 100 XP</span>
+        <div class="form-group">
+
+          <div class="form-row">
+
+            <div>
+              <input
+                type="number"
+                id="height"
+                placeholder="Height (cm)"
+                min="100"
+                max="250"
+              >
+            </div>
+
+            <div>
+              <input
+                type="number"
+                id="waist"
+                placeholder="Waist (optional)"
+                min="30"
+                max="200"
+              >
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="xp-bar">
-          <div class="xp-fill" id="xpFill"></div>
+
+        <!-- EXPERIENCE -->
+
+        <div class="form-group">
+
+          <label>🏋️ Training Experience</label>
+
+          <div class="option-grid">
+
+            <label class="option">
+              <input
+                type="radio"
+                name="experience"
+                value="beginner"
+              >
+              <span>🌱 Beginner<br>0–6 months</span>
+            </label>
+
+            <label class="option">
+              <input
+                type="radio"
+                name="experience"
+                value="intermediate"
+              >
+              <span>⚡ Intermediate<br>6–24 months</span>
+            </label>
+
+            <label class="option">
+              <input
+                type="radio"
+                name="experience"
+                value="advanced"
+              >
+              <span>👑 Advanced<br>2+ years</span>
+            </label>
+
+          </div>
+
         </div>
 
+
+        <!-- EQUIPMENT -->
+
+        <div class="form-group">
+
+          <label>🏠 Available Equipment</label>
+
+          <div class="option-grid">
+
+            <label class="option">
+              <input
+                type="radio"
+                name="equipment"
+                value="none"
+              >
+              <span>🤸 No Equipment</span>
+            </label>
+
+            <label class="option">
+              <input
+                type="radio"
+                name="equipment"
+                value="dumbbells"
+              >
+              <span>🏋️ Dumbbells</span>
+            </label>
+
+            <label class="option">
+              <input
+                type="radio"
+                name="equipment"
+                value="home_gym"
+              >
+              <span>🏠 Home Gym</span>
+            </label>
+
+            <label class="option">
+              <input
+                type="radio"
+                name="equipment"
+                value="full_gym"
+              >
+              <span>🏢 Full Gym</span>
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <!-- TRAINING DAYS -->
+
+        <div class="form-group">
+
+          <label for="trainingDays">
+            📅 How many days can you train?
+          </label>
+
+          <select id="trainingDays">
+
+            <option value="">Select days per week</option>
+
+            <option value="2">2 days</option>
+            <option value="3">3 days</option>
+            <option value="4">4 days</option>
+            <option value="5">5 days</option>
+            <option value="6">6 days</option>
+
+          </select>
+
+        </div>
+
+
+        <!-- SESSION DURATION -->
+
+        <div class="form-group">
+
+          <label for="duration">
+            ⏱️ How long can you train?
+          </label>
+
+          <select id="duration">
+
+            <option value="">Select workout duration</option>
+
+            <option value="20">15–20 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="45">45 minutes</option>
+            <option value="60">60+ minutes</option>
+
+          </select>
+
+        </div>
+
+
+        <!-- GENERATE PLAN -->
+
+        <button
+          class="generate-btn"
+          onclick="generatePlan()"
+        >
+          ⚔️ GENERATE MY PLAN
+        </button>
+
       </div>
-
-    </div>
-
-    <div class="stats">
-
-      <div class="stat">
-        <h3>TOTAL XP</h3>
-        <p id="totalXp">0</p>
-      </div>
-
-      <div class="stat">
-        <h3>WORKOUTS</h3>
-        <p id="workouts">0</p>
-      </div>
-
-      <div class="stat">
-        <h3>STREAK</h3>
-        <p id="streak">0</p>
-      </div>
-
-    </div>
-
-    <section>
-
-      <h2>Today's Workout</h2>
-
-      <div id="exerciseList"></div>
 
     </section>
 
-    <div
-      class="complete-box"
-      id="completeBox"
-    >
 
-      <h2>⚔️ QUEST COMPLETE!</h2>
+    <!-- =========================
+         MAIN APP
+         ========================= -->
 
-      <p>
-        Workout completed successfully.
-      </p>
+    <section id="mainApp">
 
-      <button onclick="newWorkout()">
-        START NEW WORKOUT
+      <div class="player-card">
+
+        <h2>
+          Hunter Level
+          <span id="level">1</span>
+        </h2>
+
+        <p
+          id="rank"
+          class="rank"
+        >
+          E-RANK HUNTER
+        </p>
+
+        <div class="xp-info">
+
+          <span>XP</span>
+
+          <span id="xpText">
+            0 / 100 XP
+          </span>
+
+        </div>
+
+        <div class="xp-bar">
+
+          <div
+            id="xpFill"
+            class="xp-fill"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="stats">
+
+        <div class="stat-card">
+
+          <h3 id="totalXp">0</h3>
+
+          <p>Total XP</p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <h3 id="workouts">0</h3>
+
+          <p>Workouts</p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <h3 id="streak">0</h3>
+
+          <p>Day Streak</p>
+
+        </div>
+
+      </div>
+
+
+      <!-- WORKOUT -->
+
+      <h2 class="section-title">
+        ⚔️ Today's Quest
+      </h2>
+
+      <div id="exerciseList"></div>
+
+
+      <!-- COMPLETION -->
+
+      <div
+        id="completeBox"
+        class="complete-box"
+      >
+
+        <h2>⚔️ QUEST COMPLETE!</h2>
+
+        <p>
+          You have completed today's training.
+        </p>
+
+      </div>
+
+
+      <!-- RESET -->
+
+      <button
+        class="reset-btn"
+        onclick="resetProgress()"
+      >
+        Reset Progress
       </button>
 
-    </div>
-
-    <button
-      class="reset-button"
-      onclick="resetProgress()"
-    >
-      RESET PROGRESS
-    </button>
+    </section>
 
   </main>
+
+
+  <!-- JAVASCRIPT -->
 
   <script src="js/storage.js"></script>
   <script src="js/workout.js"></script>
   <script src="js/app.js"></script>
 
 </body>
-
 </html>
