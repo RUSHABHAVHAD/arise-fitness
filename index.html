@@ -4,310 +4,306 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>LEVEL UP</title>
+  <title>LEVEL UP — Fitness RPG</title>
 
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-  <header>
-    <h1>⚔️ LEVEL UP</h1>
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header class="app-header">
+    <div class="logo">⚔️ LEVEL UP</div>
     <p>TRAIN • EAT • PROGRESS</p>
   </header>
 
 
   <!-- =========================
        ONBOARDING
-       ========================= -->
+  ========================== -->
 
-  <main class="container">
+  <main id="onboarding" class="container">
 
-    <section id="onboarding">
+    <section class="onboarding-card">
 
-      <div class="onboarding-card">
+      <h1>CREATE YOUR HUNTER</h1>
 
-        <h2>BEGIN YOUR JOURNEY</h2>
-
-        <p class="subtitle">
-          Create your Hunter profile and build your personalized training path.
-        </p>
+      <p class="subtitle">
+        Build your profile and generate your personalized training plan.
+      </p>
 
 
-        <!-- GOAL -->
+      <!-- GOAL -->
 
-        <div class="form-group">
+      <div class="form-section">
 
-          <label>🎯 What's your main goal?</label>
+        <h3>YOUR GOAL</h3>
 
-          <div class="option-grid">
+        <div class="option-grid">
 
-            <label class="option">
-              <input type="radio" name="goal" value="fat_loss">
-              <span>🔥 Fat Loss</span>
-            </label>
-
-            <label class="option">
-              <input type="radio" name="goal" value="muscle">
-              <span>💪 Muscle Building</span>
-            </label>
-
-            <label class="option">
-              <input type="radio" name="goal" value="strength">
-              <span>⚔️ Strength</span>
-            </label>
-
-            <label class="option">
-              <input type="radio" name="goal" value="fitness">
-              <span>❤️ General Fitness</span>
-            </label>
-
-            <label class="option">
-              <input type="radio" name="goal" value="maintain">
-              <span>⚖️ Maintain Weight</span>
-            </label>
-
-          </div>
-
-        </div>
-
-
-        <!-- BASIC INFORMATION -->
-
-        <div class="form-group">
-
-          <label>🧬 Basic Information</label>
-
-          <div class="form-row">
-
-            <div>
-              <input
-                type="number"
-                id="age"
-                placeholder="Age"
-                min="13"
-                max="100"
-              >
-            </div>
-
-            <div>
-              <input
-                type="number"
-                id="weight"
-                placeholder="Weight (kg)"
-                min="20"
-                max="300"
-              >
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <div class="form-row">
-
-            <div>
-              <input
-                type="number"
-                id="height"
-                placeholder="Height (cm)"
-                min="100"
-                max="250"
-              >
-            </div>
-
-            <div>
-              <input
-                type="number"
-                id="waist"
-                placeholder="Waist (optional)"
-                min="30"
-                max="200"
-              >
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- EXPERIENCE -->
-
-        <div class="form-group">
-
-          <label>🏋️ Training Experience</label>
-
-          <div class="option-grid">
-
-            <label class="option">
-              <input
-                type="radio"
-                name="experience"
-                value="beginner"
-              >
-              <span>🌱 Beginner<br>0–6 months</span>
-            </label>
-
-            <label class="option">
-              <input
-                type="radio"
-                name="experience"
-                value="intermediate"
-              >
-              <span>⚡ Intermediate<br>6–24 months</span>
-            </label>
-
-            <label class="option">
-              <input
-                type="radio"
-                name="experience"
-                value="advanced"
-              >
-              <span>👑 Advanced<br>2+ years</span>
-            </label>
-
-          </div>
-
-        </div>
-
-
-        <!-- EQUIPMENT -->
-
-        <div class="form-group">
-
-          <label>🏠 Available Equipment</label>
-
-          <div class="option-grid">
-
-            <label class="option">
-              <input
-                type="radio"
-                name="equipment"
-                value="none"
-              >
-              <span>🤸 No Equipment</span>
-            </label>
-
-            <label class="option">
-              <input
-                type="radio"
-                name="equipment"
-                value="dumbbells"
-              >
-              <span>🏋️ Dumbbells</span>
-            </label>
-
-            <label class="option">
-              <input
-                type="radio"
-                name="equipment"
-                value="home_gym"
-              >
-              <span>🏠 Home Gym</span>
-            </label>
-
-            <label class="option">
-              <input
-                type="radio"
-                name="equipment"
-                value="full_gym"
-              >
-              <span>🏢 Full Gym</span>
-            </label>
-
-          </div>
-
-        </div>
-
-
-        <!-- TRAINING DAYS -->
-
-        <div class="form-group">
-
-          <label for="trainingDays">
-            📅 How many days can you train?
+          <label class="option-card">
+            <input type="radio" name="goal" value="fat_loss">
+            <span>🔥</span>
+            <strong>Fat Loss</strong>
           </label>
 
-          <select id="trainingDays">
-
-            <option value="">Select days per week</option>
-
-            <option value="2">2 days</option>
-            <option value="3">3 days</option>
-            <option value="4">4 days</option>
-            <option value="5">5 days</option>
-            <option value="6">6 days</option>
-
-          </select>
-
-        </div>
-
-
-        <!-- SESSION DURATION -->
-
-        <div class="form-group">
-
-          <label for="duration">
-            ⏱️ How long can you train?
+          <label class="option-card">
+            <input type="radio" name="goal" value="muscle">
+            <span>💪</span>
+            <strong>Build Muscle</strong>
           </label>
 
-          <select id="duration">
+          <label class="option-card">
+            <input type="radio" name="goal" value="strength">
+            <span>⚔️</span>
+            <strong>Strength</strong>
+          </label>
 
-            <option value="">Select workout duration</option>
+          <label class="option-card">
+            <input type="radio" name="goal" value="fitness">
+            <span>🏃</span>
+            <strong>General Fitness</strong>
+          </label>
 
-            <option value="20">15–20 minutes</option>
-            <option value="30">30 minutes</option>
-            <option value="45">45 minutes</option>
-            <option value="60">60+ minutes</option>
-
-          </select>
+          <label class="option-card">
+            <input type="radio" name="goal" value="maintain">
+            <span>⚖️</span>
+            <strong>Maintain Weight</strong>
+          </label>
 
         </div>
-
-
-        <!-- GENERATE PLAN -->
-
-        <button
-          class="generate-btn"
-          onclick="generatePlan()"
-        >
-          ⚔️ GENERATE MY PLAN
-        </button>
 
       </div>
 
+
+      <!-- BASIC DETAILS -->
+
+      <div class="form-section">
+
+        <h3>YOUR DETAILS</h3>
+
+        <div class="input-grid">
+
+          <div class="input-group">
+            <label for="age">Age</label>
+            <input
+              type="number"
+              id="age"
+              placeholder="e.g. 22"
+              min="13"
+              max="100"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="weight">Weight (kg)</label>
+            <input
+              type="number"
+              id="weight"
+              placeholder="e.g. 70"
+              min="20"
+              max="300"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="height">Height (cm)</label>
+            <input
+              type="number"
+              id="height"
+              placeholder="e.g. 175"
+              min="100"
+              max="250"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="waist">
+              Waist (cm) <span>Optional</span>
+            </label>
+
+            <input
+              type="number"
+              id="waist"
+              placeholder="Optional"
+              min="30"
+              max="200"
+            >
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- EXPERIENCE -->
+
+      <div class="form-section">
+
+        <h3>EXPERIENCE</h3>
+
+        <div class="option-grid">
+
+          <label class="option-card">
+            <input type="radio" name="experience" value="beginner">
+            <span>🌱</span>
+            <strong>Beginner</strong>
+            <small>0–6 months</small>
+          </label>
+
+          <label class="option-card">
+            <input type="radio" name="experience" value="intermediate">
+            <span>⚡</span>
+            <strong>Intermediate</strong>
+            <small>6–24 months</small>
+          </label>
+
+          <label class="option-card">
+            <input type="radio" name="experience" value="advanced">
+            <span>👑</span>
+            <strong>Advanced</strong>
+            <small>2+ years</small>
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- EQUIPMENT -->
+
+      <div class="form-section">
+
+        <h3>EQUIPMENT</h3>
+
+        <div class="option-grid">
+
+          <label class="option-card">
+            <input type="radio" name="equipment" value="none">
+            <span>🏠</span>
+            <strong>No Equipment</strong>
+          </label>
+
+          <label class="option-card">
+            <input type="radio" name="equipment" value="dumbbells">
+            <span>🏋️</span>
+            <strong>Dumbbells</strong>
+          </label>
+
+          <label class="option-card">
+            <input type="radio" name="equipment" value="home_gym">
+            <span>🔩</span>
+            <strong>Home Gym</strong>
+          </label>
+
+          <label class="option-card">
+            <input type="radio" name="equipment" value="full_gym">
+            <span>🏢</span>
+            <strong>Full Gym</strong>
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- TRAINING DAYS -->
+
+      <div class="form-section">
+
+        <h3>TRAINING DAYS</h3>
+
+        <select id="trainingDays">
+          <option value="">Select days per week</option>
+          <option value="2">2 days</option>
+          <option value="3">3 days</option>
+          <option value="4">4 days</option>
+          <option value="5">5 days</option>
+          <option value="6">6 days</option>
+        </select>
+
+      </div>
+
+
+      <!-- SESSION DURATION -->
+
+      <div class="form-section">
+
+        <h3>SESSION DURATION</h3>
+
+        <select id="duration">
+          <option value="">Select workout duration</option>
+          <option value="20">15–20 minutes</option>
+          <option value="30">30 minutes</option>
+          <option value="45">45 minutes</option>
+          <option value="60">60+ minutes</option>
+        </select>
+
+      </div>
+
+
+      <!-- GENERATE -->
+
+      <button
+        class="generate-btn"
+        onclick="generatePlan()"
+      >
+        ⚔️ GENERATE MY PLAN
+      </button>
+
     </section>
 
+  </main>
 
-    <!-- =========================
-         MAIN APP
-         ========================= -->
 
-    <section id="mainApp">
 
-      <div class="player-card">
+  <!-- =========================
+       MAIN APP
+  ========================== -->
 
-        <h2>
-          Hunter Level
-          <span id="level">1</span>
-        </h2>
+  <main id="mainApp" class="container" style="display:none;">
 
-        <p
-          id="rank"
-          class="rank"
-        >
-          E-RANK HUNTER
-        </p>
 
-        <div class="xp-info">
+    <!-- PLAYER CARD -->
+
+    <section class="player-card">
+
+      <div class="player-top">
+
+        <div class="player-level">
+
+          <div class="level-number">
+            <span id="level">1</span>
+          </div>
+
+          <div class="level-info">
+
+            <span class="level-label">HUNTER LEVEL</span>
+
+            <span id="rank" class="rank">
+              E-RANK
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- XP -->
+
+      <div class="xp-section">
+
+        <div class="xp-header">
 
           <span>XP</span>
 
           <span id="xpText">
-            0 / 100 XP
+            0 / 100
           </span>
 
         </div>
@@ -317,86 +313,218 @@
           <div
             id="xpFill"
             class="xp-fill"
+            style="width:0%;"
           ></div>
 
         </div>
 
       </div>
 
+    </section>
 
-      <!-- STATS -->
 
-      <div class="stats">
 
-        <div class="stat-card">
+    <!-- STATS -->
 
-          <h3 id="totalXp">0</h3>
+    <section class="stats-grid">
 
-          <p>Total XP</p>
+      <div class="stat-card">
 
+        <div
+          id="totalXp"
+          class="stat-value"
+        >
+          0
         </div>
 
-
-        <div class="stat-card">
-
-          <h3 id="workouts">0</h3>
-
-          <p>Workouts</p>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <h3 id="streak">0</h3>
-
-          <p>Day Streak</p>
-
+        <div class="stat-label">
+          TOTAL XP
         </div>
 
       </div>
 
 
-      <!-- WORKOUT -->
+      <div class="stat-card">
 
-      <h2 class="section-title">
-        ⚔️ Today's Quest
-      </h2>
+        <div
+          id="workouts"
+          class="stat-value"
+        >
+          0
+        </div>
+
+        <div class="stat-label">
+          WORKOUTS
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div
+          id="streak"
+          class="stat-value"
+        >
+          0
+        </div>
+
+        <div class="stat-label">
+          STREAK
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="app-nav">
+
+      <button
+        class="nav-btn active"
+        onclick="showSection('home')"
+      >
+        HOME
+      </button>
+
+      <button
+        class="nav-btn active"
+        onclick="showSection('workout')"
+      >
+        WORKOUT
+      </button>
+
+      <button
+        class="nav-btn"
+        onclick="showSection('diet')"
+        disabled
+      >
+        DIET
+      </button>
+
+      <button
+        class="nav-btn"
+        onclick="showSection('quests')"
+        disabled
+      >
+        QUESTS
+      </button>
+
+      <button
+        class="nav-btn"
+        onclick="showSection('profile')"
+        disabled
+      >
+        PROFILE
+      </button>
+
+    </nav>
+
+
+
+    <!-- =========================
+         WORKOUT SECTION
+    ========================== -->
+
+    <section id="workoutSection">
+
+      <div class="workout-header">
+
+        <div>
+
+          <span class="section-label">
+            TODAY'S QUEST
+          </span>
+
+          <h2>
+            LEVEL
+            <span id="workoutLevel">1</span>
+            WORKOUT
+          </h2>
+
+        </div>
+
+        <span
+          id="difficulty"
+          class="difficulty"
+        >
+          E-RANK
+        </span>
+
+      </div>
+
+
+      <!-- EXERCISES -->
 
       <div id="exerciseList"></div>
 
 
-      <!-- COMPLETION -->
+      <!-- WORKOUT COMPLETE -->
 
       <div
         id="completeBox"
-        class="complete-box"
+        style="display:none;"
       >
 
-        <h2>⚔️ QUEST COMPLETE!</h2>
+        <h2>
+          ⚔️ WORKOUT COMPLETE!
+        </h2>
 
-        <p>
-          You have completed today's training.
+        <p id="completeMessage">
+          Quest completed.
         </p>
+
+        <button
+          class="generate-btn"
+          onclick="finishWorkout()"
+        >
+          CLAIM REWARD
+        </button>
 
       </div>
 
 
-      <!-- RESET -->
+      <!-- REST TIMER -->
 
-      <button
-        class="reset-btn"
-        onclick="resetProgress()"
+      <div
+        id="restTimer"
+        class="rest-timer"
+        style="display:none;"
       >
-        Reset Progress
-      </button>
+
+        <span>REST</span>
+
+        <strong id="restTime">
+          60
+        </strong>
+
+        <span>SECONDS</span>
+
+      </div>
 
     </section>
+
+
+
+    <!-- RESET -->
+
+    <button
+      class="reset-btn"
+      onclick="resetProgress()"
+    >
+      RESET PROGRESS
+    </button>
 
   </main>
 
 
-  <!-- JAVASCRIPT -->
+
+  <!-- =========================
+       SCRIPTS
+  ========================== -->
 
   <script src="js/storage.js"></script>
   <script src="js/workout.js"></script>
