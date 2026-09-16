@@ -1,611 +1,536 @@
-/* =========================================
-   LEVEL UP — MAIN STYLE
-   ========================================= */
+// =========================
+// LEVEL UP — APP CONTROLLER
+// =========================
 
-* {
-  box-sizing: border-box;
+
+// =========================
+// RANK SYSTEM
+// =========================
+
+function getRank(level) {
+
+  if (level >= 150) return "SSS";
+  if (level >= 100) return "SS";
+  if (level >= 50) return "S";
+  if (level >= 30) return "A";
+  if (level >= 20) return "B";
+  if (level >= 10) return "C";
+  if (level >= 5) return "D";
+
+  return "E";
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background:
-    radial-gradient(circle at top, #17213a 0%, #080b12 45%, #05070b 100%);
-  color: #f5f7ff;
-  font-family: Arial, Helvetica, sans-serif;
-  min-height: 100vh;
-}
 
-/* =========================================
-   HEADER
-   ========================================= */
+// =========================
+// GENERATE PLAN
+// =========================
 
-header {
-  text-align: center;
-  padding: 30px 20px 20px;
-  border-bottom: 1px solid rgba(120, 150, 255, 0.15);
-}
+function generatePlan() {
 
-header h1 {
-  margin: 0;
-  font-size: 36px;
-  font-weight: 900;
-  letter-spacing: 4px;
-  color: #ffffff;
-  text-shadow:
-    0 0 10px rgba(80, 140, 255, 0.8),
-    0 0 25px rgba(80, 140, 255, 0.35);
-}
-
-header p {
-  margin: 8px 0 0;
-  color: #8f9bb8;
-  font-size: 12px;
-  letter-spacing: 4px;
-}
-
-/* =========================================
-   GENERAL CONTAINER
-   ========================================= */
-
-.container {
-  width: min(100% - 30px, 900px);
-  margin: 30px auto;
-}
-
-/* =========================================
-   ONBOARDING
-   ========================================= */
-
-#onboarding {
-  max-width: 720px;
-  margin: 30px auto;
-}
-
-#onboarding h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
-  letter-spacing: 1px;
-}
-
-.form-section {
-  background: rgba(14, 19, 31, 0.92);
-  border: 1px solid rgba(100, 130, 255, 0.2);
-  border-radius: 18px;
-  padding: 25px;
-  margin-bottom: 20px;
-  box-shadow:
-    0 15px 40px rgba(0, 0, 0, 0.35),
-    inset 0 1px rgba(255, 255, 255, 0.03);
-}
-
-.form-section h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 18px;
-  color: #ffffff;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #aab4cc;
-  font-size: 14px;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
-
-input[type="number"],
-select {
-  width: 100%;
-  padding: 13px 14px;
-  background: #090d16;
-  color: #ffffff;
-  border: 1px solid #293552;
-  border-radius: 10px;
-  outline: none;
-  font-size: 15px;
-}
-
-input[type="number"]:focus,
-select:focus {
-  border-color: #5d8cff;
-  box-shadow: 0 0 0 3px rgba(93, 140, 255, 0.12);
-}
-
-/* =========================================
-   OPTIONS
-   ========================================= */
-
-.option-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.option {
-  position: relative;
-  cursor: pointer;
-}
-
-.option input {
-  position: absolute;
-  opacity: 0;
-}
-
-.option span {
-  display: block;
-  padding: 16px;
-  background: #0a0f1a;
-  border: 1px solid #26324d;
-  border-radius: 12px;
-  text-align: center;
-  color: #aeb8cf;
-  transition: 0.2s ease;
-}
-
-.option:hover span {
-  border-color: #557cff;
-  color: #ffffff;
-  transform: translateY(-2px);
-}
-
-.option input:checked + span {
-  border-color: #5d8cff;
-  background: rgba(55, 91, 180, 0.18);
-  color: #ffffff;
-  box-shadow:
-    0 0 15px rgba(75, 120, 255, 0.18),
-    inset 0 0 20px rgba(75, 120, 255, 0.05);
-}
-
-/* =========================================
-   GENERATE BUTTON
-   ========================================= */
-
-.generate-btn {
-  width: 100%;
-  padding: 17px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  background: linear-gradient(135deg, #4778ff, #6c4dff);
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  box-shadow:
-    0 8px 25px rgba(70, 100, 255, 0.3);
-  transition: 0.2s ease;
-}
-
-.generate-btn:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 12px 30px rgba(70, 100, 255, 0.45);
-}
-
-.generate-btn:active {
-  transform: translateY(0);
-}
-
-/* =========================================
-   MAIN APP
-   ========================================= */
-
-#mainApp {
-  display: none;
-}
-
-/* =========================================
-   PLAYER CARD
-   ========================================= */
-
-.player-card {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(24, 34, 58, 0.96),
-      rgba(10, 14, 23, 0.96)
+  const goal =
+    document.querySelector(
+      'input[name="goal"]:checked'
     );
-  border: 1px solid rgba(100, 140, 255, 0.25);
-  border-radius: 20px;
-  padding: 25px;
-  margin-bottom: 22px;
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.4),
-    inset 0 1px rgba(255, 255, 255, 0.04);
-}
 
-.player-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
+  const experience =
+    document.querySelector(
+      'input[name="experience"]:checked'
+    );
 
-.player-level {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+  const equipment =
+    document.querySelector(
+      'input[name="equipment"]:checked'
+    );
 
-.level-number {
-  width: 70px;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: radial-gradient(circle, #263d72, #0b1222);
-  border: 2px solid #5d8cff;
-  font-size: 27px;
-  font-weight: 900;
-  box-shadow: 0 0 25px rgba(80, 130, 255, 0.3);
-}
+  const age =
+    document.getElementById("age").value;
 
-.level-info h2 {
-  margin: 0;
-  font-size: 21px;
-}
+  const weight =
+    document.getElementById("weight").value;
 
-.level-info p {
-  margin: 5px 0 0;
-  color: #7e8ba8;
-  font-size: 13px;
-}
+  const height =
+    document.getElementById("height").value;
 
-.rank {
-  color: #78a0ff;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
+  const waist =
+    document.getElementById("waist").value;
 
-/* =========================================
-   XP BAR
-   ========================================= */
+  const trainingDays =
+    document.getElementById("trainingDays").value;
 
-.xp-section {
-  margin-top: 25px;
-}
+  const duration =
+    document.getElementById("duration").value;
 
-.xp-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  color: #aeb8ce;
-  font-size: 13px;
-}
 
-.xp-bar {
-  width: 100%;
-  height: 12px;
-  background: #080c14;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #202b42;
-}
+  // =========================
+  // VALIDATION
+  // =========================
 
-#xpFill {
-  height: 100%;
-  width: 0%;
-  border-radius: 20px;
-  background: linear-gradient(90deg, #4e82ff, #8a62ff);
-  box-shadow: 0 0 15px rgba(90, 125, 255, 0.5);
-  transition: width 0.5s ease;
-}
-
-/* =========================================
-   STATS
-   ========================================= */
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 25px;
-}
-
-.stat-card {
-  background: rgba(13, 18, 29, 0.95);
-  border: 1px solid #222d45;
-  border-radius: 14px;
-  padding: 18px;
-  text-align: center;
-}
-
-.stat-value {
-  display: block;
-  font-size: 25px;
-  font-weight: 900;
-  color: #ffffff;
-}
-
-.stat-label {
-  display: block;
-  margin-top: 6px;
-  color: #78859f;
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* =========================================
-   WORKOUT HEADER
-   ========================================= */
-
-.workout-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.workout-header h2 {
-  margin: 0;
-  font-size: 24px;
-}
-
-.difficulty {
-  padding: 7px 12px;
-  border-radius: 20px;
-  background: rgba(75, 110, 200, 0.12);
-  border: 1px solid #344c82;
-  color: #8facff;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-/* =========================================
-   EXERCISE CARDS
-   ========================================= */
-
-#exerciseList {
-  display: grid;
-  gap: 14px;
-}
-
-.exercise-card {
-  position: relative;
-  background:
-    linear-gradient(145deg, #101725, #090d15);
-  border: 1px solid #25324c;
-  border-radius: 16px;
-  padding: 20px;
-  transition: 0.2s ease;
-  overflow: hidden;
-}
-
-.exercise-card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: #527eff;
-}
-
-.exercise-card:hover {
-  transform: translateY(-2px);
-  border-color: #4869b3;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-}
-
-.exercise-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-}
-
-.exercise-name {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.exercise-xp {
-  color: #8facff;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.exercise-details {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 13px;
-}
-
-.exercise-details span {
-  padding: 6px 9px;
-  background: #080c14;
-  border: 1px solid #202a40;
-  border-radius: 7px;
-  color: #8d99b2;
-  font-size: 12px;
-}
-
-.complete-btn {
-  width: 100%;
-  margin-top: 15px;
-  padding: 11px;
-  border: 1px solid #3658a0;
-  border-radius: 9px;
-  background: rgba(55, 90, 180, 0.12);
-  color: #9db4ff;
-  cursor: pointer;
-  font-weight: 700;
-  transition: 0.2s ease;
-}
-
-.complete-btn:hover {
-  background: rgba(65, 105, 220, 0.25);
-  color: #ffffff;
-}
-
-.exercise-card.completed {
-  opacity: 0.65;
-  border-color: #30412e;
-}
-
-.exercise-card.completed::before {
-  background: #58b76d;
-}
-
-.exercise-card.completed .complete-btn {
-  background: rgba(50, 150, 75, 0.12);
-  border-color: #3d7449;
-  color: #70d486;
-  cursor: default;
-}
-
-/* =========================================
-   COMPLETE WORKOUT BOX
-   ========================================= */
-
-#completeBox {
-  margin-top: 22px;
-  padding: 22px;
-  text-align: center;
-  background:
-    linear-gradient(145deg, rgba(38, 66, 49, 0.35), rgba(11, 19, 16, 0.95));
-  border: 1px solid #3b7049;
-  border-radius: 16px;
-}
-
-#completeBox h3 {
-  margin: 0 0 8px;
-  color: #78df8a;
-}
-
-#completeBox p {
-  color: #a7b5ad;
-}
-
-/* =========================================
-   REST TIMER
-   ========================================= */
-
-.rest-timer {
-  margin-top: 18px;
-  padding: 18px;
-  text-align: center;
-  background: #090e17;
-  border: 1px solid #263552;
-  border-radius: 14px;
-}
-
-.rest-timer h3 {
-  margin: 0 0 8px;
-  color: #8faeff;
-}
-
-.rest-time {
-  font-size: 32px;
-  font-weight: 900;
-}
-
-/* =========================================
-   RESET BUTTON
-   ========================================= */
-
-.reset-btn {
-  display: block;
-  margin: 30px auto 10px;
-  padding: 10px 18px;
-  border: 1px solid #55353c;
-  border-radius: 9px;
-  background: transparent;
-  color: #a87982;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.reset-btn:hover {
-  background: rgba(150, 50, 65, 0.12);
-  color: #d4939d;
-}
-
-/* =========================================
-   MOBILE
-   ========================================= */
-
-@media (max-width: 650px) {
-
-  header {
-    padding-top: 22px;
+  if (!goal) {
+    alert("Please select your goal.");
+    return;
   }
 
-  header h1 {
-    font-size: 28px;
-    letter-spacing: 3px;
+  if (!age || !weight || !height) {
+    alert("Please enter your age, weight and height.");
+    return;
   }
 
-  .container {
-    width: min(100% - 20px, 900px);
-    margin-top: 20px;
+  if (!experience) {
+    alert("Please select your experience level.");
+    return;
   }
 
-  .form-section {
-    padding: 18px;
+  if (!equipment) {
+    alert("Please select your equipment.");
+    return;
   }
 
-  .form-row {
-    grid-template-columns: 1fr;
+  if (!trainingDays) {
+    alert("Please select your training days.");
+    return;
   }
 
-  .option-grid {
-    grid-template-columns: 1fr;
+  if (!duration) {
+    alert("Please select your workout duration.");
+    return;
   }
 
-  .player-card {
-    padding: 18px;
+
+  // =========================
+  // SAVE PROFILE
+  // =========================
+
+  player.profile.goal = goal.value;
+
+  player.profile.age = age;
+
+  player.profile.weight = weight;
+
+  player.profile.height = height;
+
+  player.profile.waist = waist;
+
+  player.profile.experience =
+    experience.value;
+
+  player.profile.equipment =
+    equipment.value;
+
+  player.profile.trainingDays =
+    trainingDays;
+
+  player.profile.duration =
+    duration;
+
+  player.planGenerated = true;
+
+
+  // Reset current workout progress
+  player.completedExercises = [];
+
+
+  savePlayer();
+
+
+  // =========================
+  // SHOW APP
+  // =========================
+
+  document.getElementById(
+    "onboarding"
+  ).style.display = "none";
+
+  document.getElementById(
+    "mainApp"
+  ).style.display = "block";
+
+
+  // Render everything
+  renderWorkout();
+
+  updateUI();
+}
+
+
+// =========================
+// UPDATE UI
+// =========================
+
+function updateUI() {
+
+  const levelElement =
+    document.getElementById("level");
+
+  const workoutLevelElement =
+    document.getElementById("workoutLevel");
+
+  const rankElement =
+    document.getElementById("rank");
+
+  const totalXpElement =
+    document.getElementById("totalXp");
+
+  const workoutsElement =
+    document.getElementById("workouts");
+
+  const streakElement =
+    document.getElementById("streak");
+
+  const xpTextElement =
+    document.getElementById("xpText");
+
+  const xpFillElement =
+    document.getElementById("xpFill");
+
+
+  // =========================
+  // LEVEL
+  // =========================
+
+  if (levelElement) {
+    levelElement.textContent =
+      player.level;
   }
 
-  .player-top {
-    align-items: flex-start;
+  if (workoutLevelElement) {
+    workoutLevelElement.textContent =
+      player.level;
   }
 
-  .level-number {
-    width: 58px;
-    height: 58px;
-    font-size: 22px;
+
+  // =========================
+  // RANK
+  // =========================
+
+  const rank =
+    getRank(player.level);
+
+  if (rankElement) {
+    rankElement.textContent =
+      rank + "-RANK";
   }
 
-  .stats-grid {
-    gap: 8px;
+
+  // =========================
+  // STATS
+  // =========================
+
+  if (totalXpElement) {
+    totalXpElement.textContent =
+      player.totalXp;
   }
 
-  .stat-card {
-    padding: 14px 8px;
+  if (workoutsElement) {
+    workoutsElement.textContent =
+      player.workouts;
   }
 
-  .stat-value {
-    font-size: 20px;
+  if (streakElement) {
+    streakElement.textContent =
+      player.streak;
   }
 
-  .workout-header {
-    align-items: flex-start;
-    gap: 10px;
+
+  // =========================
+  // XP BAR
+  // =========================
+
+  const requiredXP =
+    player.level * 100;
+
+  const currentXP =
+    player.xp;
+
+  const percentage =
+    Math.min(
+      (currentXP / requiredXP) * 100,
+      100
+    );
+
+
+  if (xpTextElement) {
+
+    xpTextElement.textContent =
+      currentXP +
+      " / " +
+      requiredXP;
+
   }
 
-  .workout-header h2 {
-    font-size: 20px;
+
+  if (xpFillElement) {
+
+    xpFillElement.style.width =
+      percentage + "%";
+
   }
 
-  .exercise-card {
-    padding: 17px;
+
+  // =========================
+  // DIFFICULTY
+  // =========================
+
+  if (
+    typeof showDifficulty ===
+    "function"
+  ) {
+    showDifficulty();
   }
 }
+
+
+// =========================
+// RESET PROGRESS
+// =========================
+
+function resetProgress() {
+
+  const confirmed =
+    confirm(
+      "Are you sure you want to reset all your progress?"
+    );
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  resetPlayer();
+
+
+  document.getElementById(
+    "mainApp"
+  ).style.display = "none";
+
+  document.getElementById(
+    "onboarding"
+  ).style.display = "block";
+
+
+  // Clear form selections
+  document.querySelectorAll(
+    'input[type="radio"]'
+  ).forEach(function(input) {
+
+    input.checked = false;
+
+  });
+
+
+  document.getElementById(
+    "age"
+  ).value = "";
+
+  document.getElementById(
+    "weight"
+  ).value = "";
+
+  document.getElementById(
+    "height"
+  ).value = "";
+
+  document.getElementById(
+    "waist"
+  ).value = "";
+
+  document.getElementById(
+    "trainingDays"
+  ).value = "";
+
+  document.getElementById(
+    "duration"
+  ).value = "";
+}
+
+
+// =========================
+// LEVEL UP MESSAGE
+// =========================
+
+function showLevelUpMessage(
+  oldLevel,
+  newLevel
+) {
+
+  if (newLevel <= oldLevel) {
+    return;
+  }
+
+
+  const oldRank =
+    getRank(oldLevel);
+
+  const newRank =
+    getRank(newLevel);
+
+
+  let message =
+    "LEVEL UP!\n\n" +
+    "You reached Level " +
+    newLevel +
+    "!";
+
+
+  if (newRank !== oldRank) {
+
+    message +=
+      "\n\nRANK UP!\n" +
+      oldRank +
+      " → " +
+      newRank;
+
+  }
+
+
+  alert(message);
+}
+
+
+// =========================
+// WORKOUT COMPLETE
+// =========================
+
+function handleWorkoutComplete() {
+
+  const completeBox =
+    document.getElementById(
+      "completeBox"
+    );
+
+  const completeMessage =
+    document.getElementById(
+      "completeMessage"
+    );
+
+
+  if (!completeBox) {
+    return;
+  }
+
+
+  const workout =
+    getCurrentWorkout();
+
+
+  const totalExercises =
+    workout.length;
+
+
+  const completed =
+    player.completedExercises.length;
+
+
+  if (
+    completed >= totalExercises &&
+    totalExercises > 0
+  ) {
+
+    completeBox.style.display =
+      "block";
+
+
+    if (completeMessage) {
+
+      completeMessage.textContent =
+        "All " +
+        totalExercises +
+        " exercises completed. Claim your reward!";
+
+    }
+
+  } else {
+
+    completeBox.style.display =
+      "none";
+
+  }
+}
+
+
+// =========================
+// SECTION NAVIGATION
+// =========================
+
+function showSection(section) {
+
+  if (section === "workout") {
+
+    const workoutSection =
+      document.getElementById(
+        "workoutSection"
+      );
+
+    if (workoutSection) {
+
+      workoutSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+    return;
+  }
+
+
+  if (section === "home") {
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+    return;
+  }
+
+
+  // Future sections
+  alert(
+    "This section is coming soon."
+  );
+}
+
+
+// =========================
+// APP START
+// =========================
+
+function loadApp() {
+
+  if (
+    player.planGenerated &&
+    player.profile &&
+    player.profile.goal
+  ) {
+
+    document.getElementById(
+      "onboarding"
+    ).style.display = "none";
+
+    document.getElementById(
+      "mainApp"
+    ).style.display = "block";
+
+
+    renderWorkout();
+
+    updateUI();
+
+  } else {
+
+    document.getElementById(
+      "onboarding"
+    ).style.display = "block";
+
+    document.getElementById(
+      "mainApp"
+    ).style.display = "none";
+
+  }
+}
+
+
+// =========================
+// START APP
+// =========================
+
+loadApp();
