@@ -1,3 +1,12 @@
+/* =========================================
+   LEVEL UP — APP CONTROLLER
+   ========================================= */
+
+
+/* =========================================
+   RANK SYSTEM
+   ========================================= */
+
 function getRank() {
 
   if (player.level >= 150) {
@@ -32,9 +41,9 @@ function getRank() {
 }
 
 
-/* ==========================================
-   GENERATE PERSONALIZED PLAN
-   ========================================== */
+/* =========================================
+   GENERATE PERSONAL PLAN
+   ========================================= */
 
 function generatePlan() {
 
@@ -73,79 +82,50 @@ function generatePlan() {
     document.getElementById("duration").value;
 
 
-  /* ==========================================
-     VALIDATION
-     ========================================== */
+  /* Validation */
 
   if (!goalElement) {
-
-    alert(
-      "Please select your main goal."
-    );
-
+    alert("Please select your main goal.");
     return;
-
   }
 
-
   if (!age || !weight || !height) {
-
     alert(
       "Please enter your age, weight and height."
     );
-
     return;
-
   }
 
-
   if (!experienceElement) {
-
     alert(
       "Please select your training experience."
     );
-
     return;
-
   }
 
-
   if (!equipmentElement) {
-
     alert(
       "Please select your available equipment."
     );
-
     return;
-
   }
 
-
   if (!trainingDays) {
-
     alert(
       "Please select how many days you can train."
     );
-
     return;
-
   }
 
-
   if (!duration) {
-
     alert(
       "Please select your workout duration."
     );
-
     return;
-
   }
 
 
-  /* ==========================================
-     SAVE PROFILE
-     ========================================== */
+  /* Save profile */
 
   player.profile = {
 
@@ -165,11 +145,9 @@ function generatePlan() {
     equipment:
       equipmentElement.value,
 
-    trainingDays:
-      trainingDays,
+    trainingDays: trainingDays,
 
-    duration:
-      duration
+    duration: duration
 
   };
 
@@ -182,9 +160,7 @@ function generatePlan() {
   savePlayer();
 
 
-  /* ==========================================
-     SHOW MAIN APP
-     ========================================== */
+  /* Switch screens */
 
   const onboarding =
     document.getElementById("onboarding");
@@ -195,19 +171,19 @@ function generatePlan() {
 
   if (onboarding) {
 
-    onboarding.style.display =
-      "none";
+    onboarding.style.display = "none";
 
   }
 
 
   if (mainApp) {
 
-    mainApp.style.display =
-      "block";
+    mainApp.style.display = "block";
 
   }
 
+
+  /* Load workout */
 
   renderWorkout();
 
@@ -216,9 +192,9 @@ function generatePlan() {
 }
 
 
-/* ==========================================
+/* =========================================
    UPDATE PLAYER UI
-   ========================================== */
+   ========================================= */
 
 function updateUI() {
 
@@ -290,18 +266,27 @@ function updateUI() {
   xpFillElement.style.width =
     percentage + "%";
 
+
+  /* Update difficulty text */
+
+  if (typeof showDifficulty === "function") {
+
+    showDifficulty();
+
+  }
+
 }
 
 
-/* ==========================================
+/* =========================================
    RESET PROGRESS
-   ========================================== */
+   ========================================= */
 
 function resetProgress() {
 
   const confirmed =
     confirm(
-      "Are you sure you want to reset all progress?"
+      "Are you sure you want to reset all LEVEL UP progress?"
     );
 
 
@@ -319,8 +304,7 @@ function resetProgress() {
 
   if (completeBox) {
 
-    completeBox.style.display =
-      "none";
+    completeBox.style.display = "none";
 
   }
 
@@ -334,16 +318,14 @@ function resetProgress() {
 
   if (onboarding) {
 
-    onboarding.style.display =
-      "block";
+    onboarding.style.display = "block";
 
   }
 
 
   if (mainApp) {
 
-    mainApp.style.display =
-      "none";
+    mainApp.style.display = "none";
 
   }
 
@@ -353,9 +335,48 @@ function resetProgress() {
 }
 
 
-/* ==========================================
-   LOAD APP
-   ========================================== */
+/* =========================================
+   LEVEL UP MESSAGE
+   ========================================= */
+
+function showLevelUpMessage() {
+
+  const rank =
+    getRank();
+
+
+  alert(
+    "⚔️ LEVEL UP!\n\n" +
+    "You reached Level " +
+    player.level +
+    "!\n\n" +
+    rank
+  );
+
+}
+
+
+/* =========================================
+   WORKOUT COMPLETE
+   ========================================= */
+
+function handleWorkoutComplete() {
+
+  if (
+    typeof finishWorkout ===
+    "function"
+  ) {
+
+    finishWorkout();
+
+  }
+
+}
+
+
+/* =========================================
+   LOAD APPLICATION
+   ========================================= */
 
 function loadApp() {
 
@@ -393,5 +414,9 @@ function loadApp() {
 
 }
 
+
+/* =========================================
+   START APP
+   ========================================= */
 
 loadApp();
