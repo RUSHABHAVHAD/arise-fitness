@@ -1,4 +1,4 @@
-const STORAGE_KEY = "ariseFitnessPlayer";
+const STORAGE_KEY = "levelUpPlayer";
 
 let player = JSON.parse(
   localStorage.getItem(STORAGE_KEY)
@@ -11,8 +11,25 @@ if (!player) {
     totalXp: 0,
     workouts: 0,
     streak: 0,
+
     completedExercises: [],
-    history: []
+    history: [],
+
+    // Hunter Profile
+    profile: {
+      goal: "",
+      age: "",
+      weight: "",
+      height: "",
+      waist: "",
+      experience: "",
+      equipment: "",
+      trainingDays: "",
+      duration: ""
+    },
+
+    // Plan information
+    planGenerated: false
   };
 }
 
@@ -23,6 +40,7 @@ function savePlayer() {
   );
 }
 
+
 function resetPlayer() {
   player = {
     level: 1,
@@ -30,8 +48,23 @@ function resetPlayer() {
     totalXp: 0,
     workouts: 0,
     streak: 0,
+
     completedExercises: [],
-    history: []
+    history: [],
+
+    profile: {
+      goal: "",
+      age: "",
+      weight: "",
+      height: "",
+      waist: "",
+      experience: "",
+      equipment: "",
+      trainingDays: "",
+      duration: ""
+    },
+
+    planGenerated: false
   };
 
   savePlayer();
