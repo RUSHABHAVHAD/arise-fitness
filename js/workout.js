@@ -1,60 +1,95 @@
-/* =========================================================
-   LEVEL UP — WORKOUT SYSTEM
-========================================================= */
+// ==========================================
+// LEVEL UP - WORKOUT SYSTEM
+// ==========================================
 
 
-/* =========================================================
-   DIFFICULTY
-========================================================= */
+// ==========================================
+// DATE HELPERS
+// ==========================================
 
-function getDifficulty() {
+function getTodayDate() {
+  const today = new Date();
 
-  const level = player.level;
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
 
-  if (level < 5) return "E-RANK";
-  if (level < 10) return "D-RANK";
-  if (level < 20) return "C-RANK";
-  if (level < 30) return "B-RANK";
-  if (level < 50) return "A-RANK";
-  if (level < 100) return "S-RANK";
-  if (level < 150) return "SS-RANK";
-
-  return "SSS-RANK";
+  return `${year}-${month}-${day}`;
 }
 
 
-/* =========================================================
-   RANK
-========================================================= */
+function getYesterdayDate() {
+  const yesterday = new Date();
+
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const year = yesterday.getFullYear();
+  const month = String(yesterday.getMonth() + 1).padStart(2, "0");
+  const day = String(yesterday.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+
+// ==========================================
+// TRAINING DAYS
+// ==========================================
+
+function getTrainingDays() {
+
+  if (!player.completedWorkoutDates) {
+    player.completedWorkoutDates = [];
+  }
+
+  return player.completedWorkoutDates.length;
+}
+
+
+// ==========================================
+// RANK BASED ON TRAINING DAYS
+// ==========================================
+
+function getRankByTrainingDays(days) {
+
+  if (days >= 150) return "SSS";
+  if (days >= 90) return "SS";
+  if (days >= 45) return "S";
+  if (days >= 30) return "A";
+  if (days >= 20) return "B";
+  if (days >= 10) return "C";
+  if (days >= 5) return "D";
+
+  return "E";
+}
+
+
+// ==========================================
+// CURRENT RANK
+// ==========================================
+
+function getCurrentRank() {
+  return getRankByTrainingDays(
+    getTrainingDays()
+  );
+}
+
+
+// ==========================================
+// OLD RANK FUNCTION
+// Kept for compatibility with app.js
+// ==========================================
 
 function getRank(level) {
 
-  if (level < 5) return "E";
-  if (level < 10) return "D";
-  if (level < 20) return "C";
-  if (level < 30) return "B";
-  if (level < 50) return "A";
-  if (level < 100) return "S";
-  if (level < 150) return "SS";
-
-  return "SSS";
+  return getCurrentRank();
 }
 
 
-/* =========================================================
-   XP REQUIRED FOR NEXT LEVEL
-========================================================= */
+// ==========================================
+// XP REQUIRED FOR LEVEL
+// ==========================================
 
 function getRequiredXP(level) {
-
-  /*
-    XP requirement increases as the player becomes stronger.
-
-    Early game:
-    Level 1 → 100 XP
-
-    Later ranks require progressively more XP.
-  */
 
   if (level < 5) {
     return level * 100;
@@ -88,435 +123,347 @@ function getRequiredXP(level) {
 }
 
 
-/* =========================================================
-   LEVEL REWARDS
-========================================================= */
+// ==========================================
+// DIFFICULTY
+// ==========================================
 
-function getLevelReward(level) {
+function getDifficulty() {
 
-  const rewards = {
+  const rank = getCurrentRank();
 
-    2: "Unlocked: Beginner Quest",
-    3: "Unlocked: Training Streak",
-    5: "RANK D UNLOCKED",
-    10: "RANK C UNLOCKED",
-    20: "RANK B UNLOCKED",
-    30: "RANK A UNLOCKED",
-    50: "RANK S UNLOCKED",
-    100: "RANK SS UNLOCKED",
-    150: "RANK SSS UNLOCKED"
-
-  };
-
-  return rewards[level] || "Keep training to unlock new rewards";
+  if (rank === "SSS") return "MYTHIC";
+  if (rank === "SS") return "EXTREME";
+  if (rank === "S") return "HARD";
+  if (rank === "A") return "ADVANCED";
+  if (rank === "B") return "CHALLENGING";
+  if (rank === "C") return "MODERATE";
+  if (rank === "D") return "EASY";
+  return "BEGINNER";
 }
 
 
-/* =========================================================
-   WORKOUT DATABASE
-========================================================= */
+// ==========================================
+// EXERCISE DATABASE
+// ==========================================
 
 const workoutDatabase = {
 
   beginner: {
 
     none: [
-
       {
-        name: "Bodyweight Squat",
-        sets: 3,
-        reps: 10,
-        xp: 30
-      },
-
-      {
-        name: "Incline Push-Up",
-        sets: 3,
-        reps: 8,
-        xp: 30
-      },
-
-      {
-        name: "Glute Bridge",
+        name: "Bodyweight Squats",
         sets: 3,
         reps: 12,
         xp: 25
       },
-
       {
-        name: "Bird Dog",
-        sets: 2,
-        reps: 10,
-        xp: 20
+        name: "Push Ups",
+        sets: 3,
+        reps: 8,
+        xp: 25
       },
-
+      {
+        name: "Lunges",
+        sets: 3,
+        reps: 10,
+        xp: 25
+      },
       {
         name: "Plank",
-        sets: 2,
-        reps: 20,
+        sets: 3,
+        reps: 30,
+        xp: 25
+      },
+      {
+        name: "Mountain Climbers",
+        sets: 3,
+        reps: 15,
         xp: 25
       }
-
     ],
 
     dumbbells: [
-
       {
         name: "Goblet Squat",
         sets: 3,
         reps: 10,
-        xp: 35
+        xp: 30
       },
-
       {
-        name: "Dumbbell Floor Press",
+        name: "Dumbbell Press",
         sets: 3,
         reps: 10,
-        xp: 35
+        xp: 30
       },
-
       {
         name: "Dumbbell Row",
         sets: 3,
         reps: 10,
-        xp: 35
+        xp: 30
       },
-
       {
-        name: "Dumbbell Romanian Deadlift",
+        name: "Dumbbell Lunges",
         sets: 3,
         reps: 10,
-        xp: 35
+        xp: 30
       },
-
       {
-        name: "Plank",
-        sets: 2,
-        reps: 25,
-        xp: 25
+        name: "Dumbbell Shoulder Press",
+        sets: 3,
+        reps: 10,
+        xp: 30
       }
-
     ]
-
   },
 
-
-  /* =======================================================
-     INTERMEDIATE
-  ======================================================= */
 
   intermediate: {
 
     none: [
-
       {
-        name: "Push-Up",
+        name: "Diamond Push Ups",
         sets: 4,
-        reps: 12,
-        xp: 45
-      },
-
-      {
-        name: "Bulgarian Split Squat",
-        sets: 3,
         reps: 10,
-        xp: 45
+        xp: 40
       },
-
       {
-        name: "Pike Push-Up",
-        sets: 3,
+        name: "Bulgarian Split Squats",
+        sets: 4,
+        reps: 10,
+        xp: 40
+      },
+      {
+        name: "Pike Push Ups",
+        sets: 4,
         reps: 8,
         xp: 40
       },
-
       {
-        name: "Single-Leg Glute Bridge",
-        sets: 3,
+        name: "Jump Squats",
+        sets: 4,
         reps: 12,
         xp: 40
       },
-
       {
-        name: "Plank",
-        sets: 3,
-        reps: 40,
-        xp: 35
+        name: "Plank Shoulder Taps",
+        sets: 4,
+        reps: 20,
+        xp: 40
       }
-
     ],
 
     dumbbells: [
-
       {
         name: "Dumbbell Squat",
         sets: 4,
         reps: 10,
-        xp: 50
+        xp: 45
       },
-
       {
         name: "Dumbbell Bench Press",
         sets: 4,
         reps: 10,
-        xp: 50
+        xp: 45
       },
-
       {
-        name: "One-Arm Dumbbell Row",
+        name: "Dumbbell Row",
         sets: 4,
         reps: 10,
-        xp: 50
+        xp: 45
       },
-
       {
-        name: "Dumbbell Romanian Deadlift",
+        name: "Romanian Deadlift",
         sets: 4,
         reps: 10,
-        xp: 50
+        xp: 45
       },
-
       {
         name: "Dumbbell Shoulder Press",
-        sets: 3,
+        sets: 4,
         reps: 10,
         xp: 45
       }
-
     ]
-
   },
 
-
-  /* =======================================================
-     ADVANCED
-  ======================================================= */
 
   advanced: {
 
     none: [
-
       {
-        name: "Diamond Push-Up",
-        sets: 4,
-        reps: 12,
-        xp: 60
-      },
-
-      {
-        name: "Bulgarian Split Squat",
-        sets: 4,
-        reps: 12,
-        xp: 60
-      },
-
-      {
-        name: "Decline Push-Up",
+        name: "Archer Push Ups",
         sets: 4,
         reps: 10,
-        xp: 60
+        xp: 55
       },
-
       {
-        name: "Single-Leg Romanian Deadlift",
-        sets: 3,
+        name: "Pistol Squats",
+        sets: 4,
+        reps: 8,
+        xp: 55
+      },
+      {
+        name: "Decline Push Ups",
+        sets: 4,
         reps: 12,
         xp: 55
       },
-
+      {
+        name: "Jump Lunges",
+        sets: 4,
+        reps: 12,
+        xp: 55
+      },
       {
         name: "Hollow Body Hold",
-        sets: 3,
+        sets: 4,
         reps: 30,
-        xp: 50
+        xp: 55
       }
-
     ],
 
     dumbbells: [
-
       {
         name: "Heavy Goblet Squat",
         sets: 4,
         reps: 8,
-        xp: 70
+        xp: 60
       },
-
       {
         name: "Dumbbell Bench Press",
         sets: 4,
         reps: 8,
-        xp: 70
+        xp: 60
       },
-
       {
         name: "Heavy Dumbbell Row",
         sets: 4,
         reps: 8,
-        xp: 70
+        xp: 60
       },
-
       {
         name: "Dumbbell Romanian Deadlift",
         sets: 4,
         reps: 8,
-        xp: 70
+        xp: 60
       },
-
       {
-        name: "Dumbbell Shoulder Press",
+        name: "Arnold Press",
         sets: 4,
         reps: 8,
-        xp: 65
+        xp: 60
       }
-
     ]
-
   }
-
 };
 
 
-/* =========================================================
-   GET PLAYER EXPERIENCE
-========================================================= */
+// ==========================================
+// GET USER WORKOUT
+// ==========================================
 
-function getExperienceLevel() {
+function getWorkout() {
 
-  const experience = player.profile.experience;
+  const experience =
+    player.profile.experience || "beginner";
 
-  if (experience === "intermediate") {
-    return "intermediate";
+  let equipment =
+    player.profile.equipment || "none";
+
+
+  // Home gym and full gym currently use
+  // dumbbell-style workouts until those
+  // exercise libraries are expanded.
+
+  if (
+    equipment === "home_gym" ||
+    equipment === "full_gym"
+  ) {
+    equipment = "dumbbells";
   }
 
-  if (experience === "advanced") {
-    return "advanced";
+
+  if (
+    !workoutDatabase[experience]
+  ) {
+    return workoutDatabase.beginner.none;
   }
 
-  return "beginner";
+
+  if (
+    !workoutDatabase[experience][equipment]
+  ) {
+    return workoutDatabase[experience].none;
+  }
+
+
+  return workoutDatabase[experience][equipment];
 }
 
 
-/* =========================================================
-   GET EQUIPMENT
-========================================================= */
+// ==========================================
+// BUILD WORKOUT
+// ==========================================
 
-function getEquipmentLevel() {
+function buildWorkout() {
 
-  const equipment = player.profile.equipment;
-
-  if (equipment === "dumbbells") {
-    return "dumbbells";
-  }
-
-  /*
-    Home gym / full gym currently use
-    bodyweight fallback until gym exercise
-    database is added.
-  */
-
-  return "none";
-}
+  let workout = getWorkout().map(
+    exercise => ({
+      ...exercise
+    })
+  );
 
 
-/* =========================================================
-   CREATE WORKOUT
-========================================================= */
+  const goal = player.profile.goal;
+  const level = player.level;
+  const rank = getCurrentRank();
 
-function getCurrentWorkout() {
 
-  const experience = getExperienceLevel();
-  const equipment = getEquipmentLevel();
+  // ----------------------------------------
+  // GOAL ADJUSTMENTS
+  // ----------------------------------------
 
-  let baseWorkout =
-    workoutDatabase[experience][equipment];
+  workout.forEach(exercise => {
 
-  /*
-    Clone exercises so the original database
-    is never modified.
-  */
+    if (goal === "strength") {
 
-  let workout = baseWorkout.map(function(exercise) {
+      exercise.sets += 1;
+      exercise.reps = Math.max(
+        5,
+        exercise.reps - 2
+      );
 
-    return {
-      name: exercise.name,
-      sets: exercise.sets,
-      reps: exercise.reps,
-      xp: exercise.xp
-    };
+      exercise.xp += 10;
+    }
+
+
+    if (goal === "muscle") {
+
+      exercise.sets += 1;
+
+      exercise.xp += 10;
+    }
+
+
+    if (goal === "fat_loss") {
+
+      exercise.reps += 2;
+
+      exercise.xp += 5;
+    }
 
   });
 
 
-  /* =======================================================
-     GOAL ADJUSTMENTS
-  ======================================================= */
-
-  const goal = player.profile.goal;
-
-
-  if (goal === "strength") {
-
-    workout = workout.map(function(exercise) {
-
-      return {
-        ...exercise,
-        sets: exercise.sets + 1,
-        reps: Math.max(5, exercise.reps - 2),
-        xp: exercise.xp + 10
-      };
-
-    });
-
-  }
-
-
-  if (goal === "muscle") {
-
-    workout = workout.map(function(exercise) {
-
-      return {
-        ...exercise,
-        sets: exercise.sets + 1,
-        xp: exercise.xp + 10
-      };
-
-    });
-
-  }
-
-
-  if (goal === "fat_loss") {
-
-    workout = workout.map(function(exercise) {
-
-      return {
-        ...exercise,
-        reps: exercise.reps + 2,
-        xp: exercise.xp + 5
-      };
-
-    });
-
-  }
-
-
-  /* =======================================================
-     LEVEL SCALING
-  ======================================================= */
-
-  const level = player.level;
-
+  // ----------------------------------------
+  // LEVEL SCALING
+  // ----------------------------------------
 
   if (level >= 10) {
 
-    workout = workout.map(function(exercise) {
-
-      return {
-        ...exercise,
-        xp: exercise.xp + 5
-      };
-
+    workout.forEach(exercise => {
+      exercise.xp += 5;
     });
 
   }
@@ -524,14 +471,9 @@ function getCurrentWorkout() {
 
   if (level >= 20) {
 
-    workout = workout.map(function(exercise) {
-
-      return {
-        ...exercise,
-        sets: exercise.sets + 1,
-        xp: exercise.xp + 5
-      };
-
+    workout.forEach(exercise => {
+      exercise.sets += 1;
+      exercise.xp += 5;
     });
 
   }
@@ -539,24 +481,62 @@ function getCurrentWorkout() {
 
   if (level >= 50) {
 
-    workout = workout.map(function(exercise) {
-
-      return {
-        ...exercise,
-        xp: exercise.xp + 10
-      };
-
+    workout.forEach(exercise => {
+      exercise.xp += 10;
     });
 
   }
 
 
-  /* =======================================================
-     SESSION DURATION
-  ======================================================= */
+  // ----------------------------------------
+  // RANK SCALING
+  // ----------------------------------------
+
+  if (
+    rank === "A" ||
+    rank === "S" ||
+    rank === "SS" ||
+    rank === "SSS"
+  ) {
+
+    workout.forEach(exercise => {
+      exercise.sets += 1;
+    });
+
+  }
+
+
+  if (
+    rank === "S" ||
+    rank === "SS" ||
+    rank === "SSS"
+  ) {
+
+    workout.forEach(exercise => {
+      exercise.reps += 2;
+    });
+
+  }
+
+
+  if (
+    rank === "SS" ||
+    rank === "SSS"
+  ) {
+
+    workout.forEach(exercise => {
+      exercise.xp += 15;
+    });
+
+  }
+
+
+  // ----------------------------------------
+  // SESSION DURATION
+  // ----------------------------------------
 
   const duration =
-    Number(player.profile.duration);
+    Number(player.profile.duration || 45);
 
 
   if (duration <= 20) {
@@ -568,14 +548,9 @@ function getCurrentWorkout() {
 
   if (duration >= 60) {
 
-    workout = workout.map(function(exercise) {
-
-      return {
-        ...exercise,
-        sets: exercise.sets + 1,
-        xp: exercise.xp + 10
-      };
-
+    workout.forEach(exercise => {
+      exercise.sets += 1;
+      exercise.xp += 10;
     });
 
   }
@@ -585,300 +560,374 @@ function getCurrentWorkout() {
 }
 
 
-/* =========================================================
-   REST TIME
-========================================================= */
+// ==========================================
+// REST TIME
+// ==========================================
 
 function getRestTime() {
 
-  const rank = getRank(player.level);
+  const rank = getCurrentRank();
 
-  switch (rank) {
+  if (rank === "SSS") return 150;
+  if (rank === "SS") return 135;
+  if (rank === "S") return 120;
+  if (rank === "A") return 105;
+  if (rank === "B") return 90;
+  if (rank === "C") return 75;
+  if (rank === "D") return 60;
 
-    case "E":
-    case "D":
-    case "C":
-      return 60;
-
-    case "B":
-      return 75;
-
-    case "A":
-      return 90;
-
-    case "S":
-      return 120;
-
-    case "SS":
-      return 150;
-
-    case "SSS":
-      return 180;
-
-    default:
-      return 60;
-  }
+  return 45;
 }
 
 
-/* =========================================================
-   RENDER WORKOUT
-========================================================= */
+// ==========================================
+// DAILY LOCK
+// ==========================================
+
+function hasCompletedToday() {
+
+  const today = getTodayDate();
+
+  return (
+    player.lastWorkoutDate === today
+  );
+}
+
+
+// ==========================================
+// SHOW DAILY LOCK
+// ==========================================
+
+function showDailyLock() {
+
+  const completeBox =
+    document.getElementById("completeBox");
+
+  if (!completeBox) return;
+
+
+  completeBox.innerHTML = `
+    <div class="daily-lock">
+      <h3>⚔️ DAILY QUEST COMPLETE</h3>
+
+      <p>
+        You have completed today's workout.
+      </p>
+
+      <p>
+        Come back tomorrow for your next quest.
+      </p>
+
+      <strong>
+        Training Days: ${getTrainingDays()}
+      </strong>
+    </div>
+  `;
+}
+
+
+// ==========================================
+// RENDER WORKOUT
+// ==========================================
 
 function renderWorkout() {
 
-  const workout = getCurrentWorkout();
-
-  const exerciseList =
+  const container =
     document.getElementById("exerciseList");
 
-  if (!exerciseList) {
+  if (!container) return;
+
+
+  if (hasCompletedToday()) {
+
+    container.innerHTML = `
+      <div class="daily-lock">
+        <h2>🔒 DAILY QUEST LOCKED</h2>
+
+        <p>
+          Today's workout has already been completed.
+        </p>
+
+        <p>
+          Return tomorrow for a new workout.
+        </p>
+      </div>
+    `;
+
+    showDailyLock();
+
     return;
   }
 
 
-  exerciseList.innerHTML = "";
+  const workout =
+    buildWorkout();
 
 
-  workout.forEach(function(exercise, index) {
-
-    const completed =
-      player.completedExercises.includes(index);
+  container.innerHTML = "";
 
 
-    const card =
-      document.createElement("div");
+  workout.forEach(
+    (exercise, index) => {
 
-    card.className =
-      "exercise-card" +
-      (completed ? " completed" : "");
+      const card =
+        document.createElement("div");
 
-
-    card.innerHTML = `
-
-      <div class="exercise-number">
-        ${index + 1}
-      </div>
-
-      <div class="exercise-info">
-
-        <h3>
-          ${exercise.name}
-        </h3>
-
-        <p>
-          ${exercise.sets} SETS × ${exercise.reps} REPS
-        </p>
-
-        <span class="exercise-rest">
-          REST ${getRestTime()} SEC
-        </span>
-
-      </div>
-
-      <div class="exercise-xp">
-        +${exercise.xp} XP
-      </div>
-
-      <button
-        class="complete-exercise"
-        onclick="completeExercise(${index})"
-        ${completed ? "disabled" : ""}
-      >
-
-        ${completed ? "✓ COMPLETED" : "COMPLETE"}
-
-      </button>
-
-    `;
+      card.className = "exercise-card";
 
 
-    exerciseList.appendChild(card);
+      card.innerHTML = `
+        <div class="exercise-info">
 
-  });
+          <h3>
+            ${exercise.name}
+          </h3>
+
+          <p>
+            ${exercise.sets} sets ×
+            ${exercise.reps} reps
+          </p>
+
+          <small>
+            +${exercise.xp} XP
+            &nbsp; • &nbsp;
+            +5 🪙
+          </small>
+
+        </div>
+
+        <button
+          class="complete-btn"
+          onclick="completeExercise(${index})"
+        >
+          COMPLETE
+        </button>
+
+      `;
+
+
+      container.appendChild(card);
+
+    }
+  );
 
 
   updateCompleteBox();
 }
 
 
-/* =========================================================
-   XP POPUP
-========================================================= */
+// ==========================================
+// XP POPUP
+// ==========================================
 
 function showXpPopup(amount) {
 
   const popup =
     document.createElement("div");
 
-  popup.className =
-    "xp-popup";
+  popup.className = "xp-popup";
 
   popup.textContent =
-    "+" + amount + " XP";
-
+    `+${amount} XP`;
 
   document.body.appendChild(popup);
 
 
-  /*
-    Force browser reflow so animation
-    always starts correctly.
-  */
+  setTimeout(() => {
 
-  void popup.offsetWidth;
+    popup.remove();
 
-
-  popup.style.animation =
-    "xpPopup 1.5s ease forwards";
-
-
-  setTimeout(function() {
-
-    if (popup.parentNode) {
-      popup.parentNode.removeChild(popup);
-    }
-
-  }, 1600);
+  }, 1200);
 }
 
 
-/* =========================================================
-   LEVEL-UP POPUP
-========================================================= */
+// ==========================================
+// COIN POPUP
+// ==========================================
 
-function showLevelUpPopup(oldLevel, newLevel) {
+function showCoinPopup(amount) {
 
-  const oldRank =
-    getRank(oldLevel);
-
-  const newRank =
-    getRank(newLevel);
-
-  const rankUp =
-    oldRank !== newRank;
-
-
-  const overlay =
+  const popup =
     document.createElement("div");
 
-  overlay.className =
-    "level-up-overlay";
+  popup.className = "xp-popup";
+
+  popup.textContent =
+    `+${amount} 🪙`;
+
+  document.body.appendChild(popup);
 
 
-  overlay.innerHTML = `
+  setTimeout(() => {
 
-    <div class="level-up-card">
+    popup.remove();
 
-      <div class="level-icon">
-        ⚔️
-      </div>
+  }, 1200);
+}
 
-      <div class="level-label">
-        LEVEL UP
-      </div>
 
-      <div class="level-number">
+// ==========================================
+// LEVEL UP POPUP
+// ==========================================
+
+function showLevelUpPopup(
+  oldLevel,
+  newLevel
+) {
+
+  const reward =
+    getLevelReward(newLevel);
+
+
+  const popup =
+    document.createElement("div");
+
+  popup.className =
+    "level-up-popup";
+
+
+  popup.innerHTML = `
+    <div class="level-up-box">
+
+      <h1>LEVEL UP!</h1>
+
+      <h2>
+        ${oldLevel}
+        →
         ${newLevel}
-      </div>
+      </h2>
 
-      <div class="level-message">
-        YOUR POWER HAS INCREASED
-      </div>
-
-      <div class="reward-card">
-
-        <div class="reward-title">
-          REWARD UNLOCKED
-        </div>
-
-        <div class="reward-text">
-          ${getLevelReward(newLevel)}
-        </div>
-
-      </div>
-
-      ${
-        rankUp
-          ? `
-            <div class="rank-up">
-              RANK UP<br>
-              ${oldRank} → ${newRank}
-            </div>
-          `
-          : ""
-      }
+      <p>
+        ${reward}
+      </p>
 
       <button
-        class="level-up-close"
         onclick="closeLevelUpPopup()"
       >
         CONTINUE
       </button>
 
     </div>
-
   `;
 
 
-  document.body.appendChild(overlay);
-
-
-  void overlay.offsetWidth;
-
-
-  requestAnimationFrame(function() {
-
-    overlay.classList.add("show");
-
-  });
-
+  document.body.appendChild(popup);
 }
 
-
-/* =========================================================
-   CLOSE LEVEL-UP POPUP
-========================================================= */
 
 function closeLevelUpPopup() {
 
-  const overlay =
-    document.querySelector(".level-up-overlay");
+  const popup =
+    document.querySelector(
+      ".level-up-popup"
+    );
 
-  if (!overlay) {
-    return;
+  if (popup) {
+    popup.remove();
   }
-
-
-  overlay.classList.remove("show");
-
-
-  setTimeout(function() {
-
-    if (overlay.parentNode) {
-      overlay.parentNode.removeChild(overlay);
-    }
-
-  }, 300);
 }
 
 
-/* =========================================================
-   CHECK LEVEL
-========================================================= */
+// ==========================================
+// LEVEL REWARDS
+// ==========================================
+
+function getLevelReward(level) {
+
+  const rewards = {
+
+    2: "Beginner Quest Unlocked",
+
+    3: "Training Streak Unlocked",
+
+    5: "RANK D JOURNEY BEGINS",
+
+    10: "RANK C JOURNEY BEGINS",
+
+    20: "RANK B JOURNEY BEGINS",
+
+    30: "RANK A JOURNEY BEGINS",
+
+    50: "RANK S JOURNEY BEGINS",
+
+    100: "RANK SS JOURNEY BEGINS",
+
+    150: "RANK SSS JOURNEY BEGINS"
+
+  };
+
+
+  return (
+    rewards[level] ||
+    "Keep training. Your next milestone awaits."
+  );
+}
+
+
+// ==========================================
+// RANK REWARDS
+// ==========================================
+
+function getRankReward(rank) {
+
+  const rewards = {
+
+    D: 250,
+
+    C: 500,
+
+    B: 1000,
+
+    A: 2000,
+
+    S: 5000,
+
+    SS: 10000,
+
+    SSS: 25000
+
+  };
+
+
+  return rewards[rank] || 0;
+}
+
+
+// ==========================================
+// RANK NAME
+// ==========================================
+
+function getRankName(rank) {
+
+  const names = {
+
+    E: "E-RANK",
+    D: "D-RANK",
+    C: "C-RANK",
+    B: "B-RANK",
+    A: "A-RANK",
+    S: "S-RANK",
+    SS: "SS-RANK",
+    SSS: "SSS-RANK"
+
+  };
+
+
+  return names[rank] || "E-RANK";
+}
+
+
+// ==========================================
+// CHECK LEVEL
+// ==========================================
 
 function checkLevel() {
 
   let leveledUp = false;
 
-  let oldLevel =
+  const oldLevel =
     player.level;
 
-
-  /*
-    Player can potentially gain enough XP
-    for multiple levels at once.
-  */
 
   while (
     player.xp >=
@@ -894,134 +943,121 @@ function checkLevel() {
   }
 
 
-  if (!leveledUp) {
-    return;
+  if (leveledUp) {
+
+    showLevelUpPopup(
+      oldLevel,
+      player.level
+    );
+
   }
-
-
-  const newLevel =
-    player.level;
 
 
   savePlayer();
 
-
-  updateUI();
-
-
-  showLevelUpPopup(
-    oldLevel,
-    newLevel
-  );
+  if (typeof updateUI === "function") {
+    updateUI();
+  }
 }
 
 
-/* =========================================================
-   COMPLETE EXERCISE
-========================================================= */
+// ==========================================
+// COMPLETE EXERCISE
+// ==========================================
 
 function completeExercise(index) {
 
+  // Daily lock
+  if (hasCompletedToday()) {
+
+    alert(
+      "Today's workout is already complete. Come back tomorrow!"
+    );
+
+    return;
+  }
+
+
+  if (
+    player.completedExercises.includes(index)
+  ) {
+    return;
+  }
+
+
   const workout =
-    getCurrentWorkout();
+    buildWorkout();
+
 
   const exercise =
     workout[index];
 
 
-  if (!exercise) {
-    return;
-  }
+  if (!exercise) return;
 
 
-  /*
-    Prevent duplicate XP.
-  */
+  // XP
+  player.xp += exercise.xp;
 
-  if (
-    player.completedExercises.includes(index)
-  ) {
-
-    return;
-
-  }
+  player.totalXp += exercise.xp;
 
 
-  /*
-    Mark exercise complete.
-  */
-
-  player.completedExercises.push(index);
+  // Coins
+  player.coins += 5;
 
 
-  /*
-    Add XP.
-  */
-
-  player.xp +=
-    exercise.xp;
-
-  player.totalXp +=
-    exercise.xp;
+  player.completedExercises.push(
+    index
+  );
 
 
   savePlayer();
 
 
-  /*
-    Update interface.
-  */
-
-  renderWorkout();
-
-  updateUI();
+  showXpPopup(
+    exercise.xp
+  );
 
 
-  /*
-    XP animation.
-  */
+  showCoinPopup(5);
 
-  setTimeout(function() {
 
-    showXpPopup(
-      exercise.xp
+  checkLevel();
+
+
+  updateCompleteBox();
+
+
+  // Mark button complete
+  const buttons =
+    document.querySelectorAll(
+      ".complete-btn"
     );
 
-  }, 100);
+
+  if (buttons[index]) {
+
+    buttons[index].textContent =
+      "COMPLETED";
+
+    buttons[index].disabled =
+      true;
+
+  }
 
 
-  /*
-    Level check.
-  */
-
-  setTimeout(function() {
-
-    checkLevel();
-
-  }, 500);
-
-
-  /*
-    Check whether entire workout
-    has been completed.
-  */
-
-  setTimeout(function() {
-
-    checkWorkoutComplete();
-
-  }, 800);
+  checkWorkoutComplete();
 }
 
 
-/* =========================================================
-   CHECK WORKOUT COMPLETION
-========================================================= */
+// ==========================================
+// CHECK WORKOUT COMPLETE
+// ==========================================
 
 function checkWorkoutComplete() {
 
   const workout =
-    getCurrentWorkout();
+    buildWorkout();
 
 
   if (
@@ -1030,170 +1066,267 @@ function checkWorkoutComplete() {
   ) {
 
     const box =
-      document.getElementById("completeBox");
+      document.getElementById(
+        "completeBox"
+      );
+
 
     if (box) {
 
-      box.classList.add("ready");
+      box.style.display =
+        "block";
+
+      box.innerHTML = `
+        <div class="complete-message">
+
+          <h3>
+            ⚔️ QUEST READY
+          </h3>
+
+          <p>
+            You completed every exercise.
+          </p>
+
+          <button
+            onclick="finishWorkout()"
+          >
+            CLAIM DAILY REWARD
+          </button>
+
+        </div>
+      `;
 
     }
 
   }
-
 }
 
 
-/* =========================================================
-   COMPLETE BOX
-========================================================= */
+// ==========================================
+// COMPLETE BOX
+// ==========================================
 
 function updateCompleteBox() {
 
-  const workout =
-    getCurrentWorkout();
-
   const box =
-    document.getElementById("completeBox");
+    document.getElementById(
+      "completeBox"
+    );
 
-  const message =
-    document.getElementById("completeMessage");
+
+  if (!box) return;
 
 
-  if (!box) {
+  if (hasCompletedToday()) {
+
+    showDailyLock();
+
     return;
   }
 
 
-  const completed =
-    player.completedExercises.length;
+  box.style.display =
+    "block";
 
 
-  const total =
-    workout.length;
-
-
-  if (completed >= total && total > 0) {
-
-    box.style.display =
-      "block";
-
-    box.classList.add("ready");
-
-
-    if (message) {
-
-      message.textContent =
-        "ALL EXERCISES COMPLETE — CLAIM YOUR REWARD";
-
-    }
-
-  } else {
-
-    box.classList.remove("ready");
-
-
-    if (message) {
-
-      message.textContent =
-        completed +
-        " / " +
-        total +
-        " EXERCISES COMPLETE";
-
-    }
-
-  }
-
+  box.innerHTML = `
+    <div id="completeMessage">
+      Complete all exercises
+      to finish today's quest.
+    </div>
+  `;
 }
 
 
-/* =========================================================
-   FINISH WORKOUT
-========================================================= */
+// ==========================================
+// FINISH WORKOUT
+// ==========================================
 
 function finishWorkout() {
 
-  const workout =
-    getCurrentWorkout();
-
-
-  const total =
-    workout.length;
-
-
-  const completed =
-    player.completedExercises.length;
-
-
-  if (
-    completed < total
-  ) {
+  // Prevent second completion
+  if (hasCompletedToday()) {
 
     alert(
-      "Complete all exercises before claiming your reward."
+      "Today's workout has already been completed."
     );
 
     return;
   }
 
 
-  /*
-    Calculate XP earned in this workout.
-  */
-
-  let workoutXp = 0;
+  const workout =
+    buildWorkout();
 
 
-  player.completedExercises.forEach(
-    function(index) {
+  // Make sure all exercises are complete
+  if (
+    player.completedExercises.length <
+    workout.length
+  ) {
 
-      if (workout[index]) {
+    alert(
+      "Complete all exercises first!"
+    );
 
-        workoutXp +=
-          workout[index].xp;
-
-      }
-
-    }
-  );
+    return;
+  }
 
 
-  /*
-    Workout statistics.
-  */
+  const today =
+    getTodayDate();
+
+
+  const yesterday =
+    getYesterdayDate();
+
+
+  const oldRank =
+    getCurrentRank();
+
+
+  // ----------------------------------------
+  // DAILY TRAINING
+  // ----------------------------------------
+
+  if (
+    !player.completedWorkoutDates.includes(
+      today
+    )
+  ) {
+
+    player.completedWorkoutDates.push(
+      today
+    );
+
+  }
+
+
+  // ----------------------------------------
+  // WORKOUT COUNT
+  // ----------------------------------------
 
   player.workouts++;
 
-  player.streak++;
+
+  // ----------------------------------------
+  // STREAK
+  // ----------------------------------------
+
+  if (
+    player.lastWorkoutDate ===
+    yesterday
+  ) {
+
+    player.streak++;
+
+  } else {
+
+    player.streak = 1;
+
+  }
 
 
-  /*
-    Save workout history.
-  */
+  player.lastWorkoutDate =
+    today;
+
+
+  // ----------------------------------------
+  // DAILY COMPLETION XP
+  // ----------------------------------------
+
+  const completionXP = 50;
+
+  player.xp += completionXP;
+
+  player.totalXp += completionXP;
+
+
+  // ----------------------------------------
+  // DAILY COMPLETION COINS
+  // ----------------------------------------
+
+  const completionCoins = 50;
+
+  player.coins += completionCoins;
+
+
+  // ----------------------------------------
+  // STREAK REWARD
+  // ----------------------------------------
+
+  let streakCoins = 0;
+
+
+  if (
+    player.streak > 0 &&
+    player.streak % 7 === 0
+  ) {
+
+    streakCoins = 100;
+
+    player.coins += streakCoins;
+
+  }
+
+
+  // ----------------------------------------
+  // NEW RANK
+  // ----------------------------------------
+
+  const newRank =
+    getCurrentRank();
+
+
+  let rankCoins = 0;
+
+
+  if (
+    newRank !== oldRank
+  ) {
+
+    rankCoins =
+      getRankReward(newRank);
+
+    player.coins +=
+      rankCoins;
+
+  }
+
+
+  // ----------------------------------------
+  // HISTORY
+  // ----------------------------------------
 
   player.history.push({
 
-    date:
-      new Date().toISOString(),
+    date: today,
 
-    xp:
-      workoutXp,
+    xp: completionXP,
 
-    exercises:
-      completed,
+    coins:
+      completionCoins +
+      streakCoins +
+      rankCoins,
+
+    trainingDays:
+      getTrainingDays(),
+
+    streak:
+      player.streak,
 
     level:
       player.level,
 
     rank:
-      getRank(player.level)
+      newRank
 
   });
 
 
-  /*
-    Clear current workout.
-  */
+  // ----------------------------------------
+  // RESET CURRENT EXERCISES
+  // ----------------------------------------
 
   player.completedExercises =
     [];
@@ -1202,89 +1335,125 @@ function finishWorkout() {
   savePlayer();
 
 
-  /*
-    Update UI.
-  */
+  // ----------------------------------------
+  // CHECK LEVEL
+  // ----------------------------------------
+
+  checkLevel();
+
+
+  // ----------------------------------------
+  // SHOW REWARDS
+  // ----------------------------------------
+
+  let rewardText =
+    `+${completionXP} XP<br>
+     +${completionCoins} 🪙`;
+
+
+  if (streakCoins > 0) {
+
+    rewardText +=
+      `<br>🔥 7-Day Streak +${streakCoins} 🪙`;
+
+  }
+
+
+  if (rankCoins > 0) {
+
+    rewardText +=
+      `<br>🏆 ${newRank}-Rank Reward +${rankCoins} 🪙`;
+
+  }
+
+
+  alert(
+    `QUEST COMPLETE!\n\n` +
+    `Training Days: ${getTrainingDays()}\n` +
+    `Streak: ${player.streak}\n` +
+    `Rank: ${newRank}\n\n` +
+    `XP: +${completionXP}\n` +
+    `Coins: +${
+      completionCoins +
+      streakCoins +
+      rankCoins
+    }`
+  );
+
+
+  // ----------------------------------------
+  // LOCK TODAY'S WORKOUT
+  // ----------------------------------------
 
   renderWorkout();
 
-  updateUI();
 
-
-  /*
-    Completion message.
-  */
-
-  alert(
-    "QUEST COMPLETE!\n\n" +
-    "+" + workoutXp + " XP EARNED\n\n" +
-    "Workout completed successfully."
-  );
-
+  if (typeof updateUI === "function") {
+    updateUI();
+  }
 }
 
 
-/* =========================================================
-   NEW WORKOUT
-========================================================= */
+// ==========================================
+// NEW WORKOUT
+// ==========================================
 
 function newWorkout() {
 
-  player.completedExercises =
-    [];
+  if (hasCompletedToday()) {
 
-  savePlayer();
+    alert(
+      "Today's quest is already complete. Come back tomorrow!"
+    );
 
-  renderWorkout();
-
-  updateUI();
-
-}
-
-
-/* =========================================================
-   SHOW DIFFICULTY
-========================================================= */
-
-function showDifficulty() {
-
-  const difficulty =
-    document.getElementById("difficulty");
-
-
-  if (!difficulty) {
     return;
   }
 
 
-  difficulty.textContent =
-    getDifficulty();
+  player.completedExercises =
+    [];
 
+  savePlayer();
+
+  renderWorkout();
 }
 
 
-/* =========================================================
-   START REST TIMER
-========================================================= */
+// ==========================================
+// DIFFICULTY DISPLAY
+// ==========================================
 
-let restInterval = null;
+function showDifficulty() {
 
+  const element =
+    document.getElementById(
+      "difficulty"
+    );
+
+
+  if (!element) return;
+
+
+  element.textContent =
+    `Difficulty: ${getDifficulty()} • ${getCurrentRank()}-Rank`;
+}
+
+
+// ==========================================
+// REST TIMER
+// ==========================================
 
 function startRestTimer() {
 
-  const restTime =
-    getRestTime();
-
-
-  let remaining =
-    restTime;
-
-
   const timer =
-    document.getElementById("restTimer");
+    document.getElementById(
+      "restTimer"
+    );
 
   const timeDisplay =
-    document.getElementById("restTime");
+    document.getElementById(
+      "restTime"
+    );
 
 
   if (!timer || !timeDisplay) {
@@ -1292,9 +1461,8 @@ function startRestTimer() {
   }
 
 
-  clearInterval(
-    restInterval
-  );
+  let seconds =
+    getRestTime();
 
 
   timer.style.display =
@@ -1302,34 +1470,26 @@ function startRestTimer() {
 
 
   timeDisplay.textContent =
-    remaining;
+    seconds;
 
 
-  restInterval =
-    setInterval(function() {
+  const interval =
+    setInterval(() => {
 
-      remaining--;
+      seconds--;
 
       timeDisplay.textContent =
-        remaining;
+        seconds;
 
 
-      if (remaining <= 0) {
+      if (seconds <= 0) {
 
-        clearInterval(
-          restInterval
-        );
+        clearInterval(interval);
 
-        timeDisplay.textContent =
-          "READY";
+        timer.style.display =
+          "none";
 
       }
 
     }, 1000);
-
 }
-
-
-/* =========================================================
-   END WORKOUT SYSTEM
-========================================================= */
